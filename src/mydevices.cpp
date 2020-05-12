@@ -2,7 +2,6 @@
 #include "mydevices.h"
 
 using namespace std;
-
 //classe AnalogSensorTemperature
 AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):Device(),val(t),temps(d){
   alea=1;
@@ -47,7 +46,48 @@ void I2CActuatorScreen::run(){
     }
 }
 
+//class AnalogSensorLuminosity
+AnalogSensorLuminosity::AnalogSensorLuminosity(int t):Device(),val(luminosite_environnement),temps(t){
+    alea=1;
+}
 
+void AnalogSensorLuminosity::run(){
+  while(1){
+    val=luminosite_environnement;
+    alea=1-alea;
+    if(ptrmem!=NULL)
+      *ptrmem=val+alea;
+    sleep(temps);
+  }
+}
 
+//class IntelligentDigitalActuatorLED
+IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Device(),state(LOW),temps(t){
+}
 
+void IntelligentDigitalActuatorLED::run(){
+    bool estPasse_low = false;
+    bool estPasse_high=false;
+while(1){
+    if(ptrmem!=NULL)
+      state=*ptrmem;
+    if (state==LOW){
+        estPasse_high=false;
+        if (estPasse_low==false){
+                luminosite_environnement -=50;
+                estPasse_low=true;
+        }
+        cout << "((((eteint_LED2))))\n";
 
+    }
+    else{
+        estPasse_low=false;
+        if(estPasse_high==false){
+           luminosite_environnement += 50;
+           estPasse_high=true;
+        }
+        cout << "((((allume_LED2))))\n";
+    }
+    sleep(temps);
+    }
+}
