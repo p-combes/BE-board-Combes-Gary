@@ -5,6 +5,7 @@
 #include <thread>
 #include <unistd.h>
 #include <string.h>
+#include <fstream>
 #include "core_simulation.h"
 
 static int luminosite_environnement=200;
@@ -79,5 +80,18 @@ public:
     IntelligentDigitalActuatorLED(int t);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
+};
+
+class ExternalDigitalSensorbutton: public Device{
+protected :
+    //Etat du bouton
+    int state;
+    //temps de maj du bouton
+    int temps;
+public:
+    //constructeur
+    ExternalDigitalSensorbutton(int t);
+     // thread representant le capteur et permettant de fonctionner independamment de la board
+     virtual void run();
 };
 #endif

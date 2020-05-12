@@ -11,6 +11,7 @@ int main(){
   I2CActuatorScreen screen;
   AnalogSensorLuminosity lumino(DELAY);
   IntelligentDigitalActuatorLED led2(DELAY);
+  ExternalDigitalSensorbutton bouton(DELAY);
 
   // branchement des capteurs actionneurs
   esp8266.pin(1,temperature);
@@ -18,6 +19,7 @@ int main(){
   esp8266.i2c(1,screen);
   esp8266.pin(2,lumino);
   esp8266.pin(3,led2);
+  esp8266.pin(4,bouton);
   // allumage de la carte
   esp8266.run();
   return 0;

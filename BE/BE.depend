@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1589274649 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.cpp
+1589283099 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.cpp
 	<thread>
 	<unistd.h>
 	<string.h>
 	"core_simulation.h"
 
-1589283085 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.h
+1589292615 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.h
 	<unistd.h>
 	<windows.h>
 	<iostream>
@@ -13,21 +13,22 @@
 	<thread>
 	<mutex>
 
-1589281624 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.cpp
+1589292541 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.cpp
 	"mydevices.h"
 
-1589281786 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.h
+1589292615 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.h
 	<iostream>
 	<thread>
 	<unistd.h>
 	<string.h>
+	<fstream>
 	"core_simulation.h"
 
-1589279638 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\board.cpp
+1589292206 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\board.cpp
 	"core_simulation.h"
 	"mydevices.h"
 
-1589280090 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\sketch_ino.cpp
+1589292541 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\sketch_ino.cpp
 	<unistd.h>
 	"core_simulation.h"
 

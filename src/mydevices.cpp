@@ -91,3 +91,21 @@ while(1){
     sleep(temps);
     }
 }
+//Classe ExternalDigitalSensorbutton
+
+ExternalDigitalSensorbutton::ExternalDigitalSensorbutton(int t):state(OFF),temps(t){
+}
+
+void ExternalDigitalSensorbutton::run(){
+    while(1){
+        if(ifstream("on.txt")){
+            state=ON;
+        }
+        else{
+            state=OFF;
+        }
+        if(ptrmem!=NULL)
+        *ptrmem=state;
+        sleep(temps);
+    }
+}
