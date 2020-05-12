@@ -1,3 +1,10 @@
+#ifdef __unix__
+#include <unistd.h>
+#elif defined _WIN32
+#include <windows.h>
+#define sleep(x) Sleep(1000 * (x))
+#endif
+
 #ifndef CORE_SIMULATEUR_H
 #define CORE_SIMULATEUR_H
 
@@ -19,7 +26,7 @@ using namespace std;
 enum typeio {OUTPUT, INPUT};
 
 // exceptions gerees
-enum excep {SPEED, INOUT, ADDRESS, SIZE, EMPTY};
+enum excep {SPEED, INOUT, ADDRESS, EXCSIZE, EMPTY};
 class BoardException{
 protected:
     // numero de l'exception
@@ -102,7 +109,7 @@ public:
   Terminal Serial;
     // threads representant chaque senseur/actionneur sur le bus I2C
   thread *tabthreadbus[MAX_I2C_DEVICES];
-    
+
 // simulation de la boucle de controle arduino
     void run();
   // accroachage d'un senseur/actionneur à une pin
