@@ -134,19 +134,19 @@ void AnalogActuatorServo::run(){
  time_t date_fin; //date de changement de vitesse
     while(1){
         if(ptrmem!=NULL){
-            //vitesse_old=vitesse;
+            vitesse_old=vitesse;
             vitesse=*ptrmem;
         }
-        /*if (distance_arrosoir < TAILLE_POTAGER){ //tant qu'on est pas au bout du potager, on continue a avancer
+        if ((distance_arrosoir < TAILLE_POTAGER)){ //tant qu'on est pas au bout du potager, on continue a avancer
             if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'arrosoir
                 time(&date_debut);
             }
             time(&date_fin);
-            if (date_debut<date_fin){ //Actualisation de la distance de l'arrosoir toutes les 0.2 secondes
-                distance_arrosoir+=difftime(date_debut,date_fin)*vitesse;
+            if (difftime(date_fin,date_debut)>0.2){ //Actualisation de la distance de l'arrosoir toutes les 0.2 secondes
+                distance_arrosoir+=difftime(date_fin,date_debut)*(double)vitesse*0.01;
                 time(&date_debut);
             }
-        }*/
+        }
          sleep(temps);
     }
 }

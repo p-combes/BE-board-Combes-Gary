@@ -25,6 +25,7 @@ void Board::loop(){
   static int cpt=0;
   static int bascule=0;
   int i=0;
+  digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR);
   for(i=0;i<10;i++){
     // lecture capteur de temperature
     //Serial.println("Lecture de la temperature");
@@ -56,7 +57,7 @@ void Board::loop(){
     sleep(1);
   }
   //Serial.println("Ecriture vitesse arrosoir");
-  digitalWrite(PIN_SERVO_ARROSOIR,10);
+
   //Serial.println("Ecriture LED2 selon bouton");
   bouton=analogRead(PIN_BOUTON);
   if (bouton==ON){digitalWrite(PIN_LED2,LOW);}
