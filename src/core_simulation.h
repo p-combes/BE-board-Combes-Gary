@@ -18,12 +18,12 @@
 #define HIGH 1
 #define LOW 0
 #define PIN_LED1 0
-#define PIN_TEMP 9
 #define PIN_LUMINOSITE 2
 #define PIN_LED2 3
 #define PIN_BOUTON 4
 #define PIN_RADAR 5
 #define PIN_SERVO_ARROSOIR 8
+#define PIN_TEMP 9
 #define TAILLE_POTAGER 20.0
 #define MAX_I2C_DEVICES 4
 #define I2C_BUFFER_SIZE 1024
