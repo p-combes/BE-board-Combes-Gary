@@ -11,6 +11,8 @@ void Board::setup(){
   pinMode(2,INPUT);
   pinMode(3,OUTPUT);
   pinMode(4,INPUT);
+  pinMode(5,INPUT);
+  pinMode(8,OUTPUT);
 }
 
 // la boucle de controle arduino
@@ -19,6 +21,7 @@ void Board::loop(){
   int val;
   int lum;
   int bouton;
+  int dist;
   static int cpt=0;
   static int bascule=0;
   int i=0;
@@ -27,11 +30,14 @@ void Board::loop(){
     val=analogRead(1);
     lum=analogRead(2);
     bouton=analogRead(4);
+    dist=analogRead(5);
     sprintf(buf,"temperature %d",val);
     Serial.println(buf);
     sprintf(buf,"luminosite %d",lum);
     Serial.println(buf);
     sprintf(buf,"Bouton en pos %d",bouton);
+    Serial.println(buf);
+    sprintf(buf,"Distance de l'arrosoir %d",dist);
     Serial.println(buf);
     if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
@@ -41,6 +47,7 @@ void Board::loop(){
     cpt++;
     sleep(1);
   }
+  analogWrite(8,10);
   bouton=analogRead(4);
   if (bouton==ON){digitalWrite(3,LOW);}
   else {digitalWrite(3,HIGH);}

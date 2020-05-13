@@ -109,3 +109,44 @@ void ExternalDigitalSensorbutton::run(){
         sleep(temps);
     }
 }
+//Classe AnalogSensorRadar
+AnalogSensorRadar::AnalogSensorRadar(int t):temps(t),distance(distance_arrosoir){
+    alea=1;
+}
+
+void AnalogSensorRadar::run(){
+    while(1){
+    distance=distance_arrosoir;
+    alea=1-alea;
+    if(ptrmem!=NULL)
+      *ptrmem=distance+alea;
+    sleep(temps);
+  }
+}
+
+//classe AnalogActuatorServo
+AnalogActuatorServo::AnalogActuatorServo(int t):vitesse(0),temps(t){
+}
+
+void AnalogActuatorServo::run(){
+ int vitesse_old; //permet de détecter un changement dans la vitesse
+ time_t date_debut; //date de changement de vitesse
+ time_t date_fin; //date de changement de vitesse
+    while(1){
+        if(ptrmem!=NULL){
+            vitesse_old=vitesse;
+            vitesse=*ptrmem;
+        }
+        if (distance_arrosoir < TAILLE_POTAGER){ //tant qu'on est pas au bout du potager, on continue a avancer
+            if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'arrosoir
+                time(&date_debut);
+            }
+            time(&date_fin);
+            if (date_debut<date_fin){ //Actualisation de la distance de l'arrosoir toutes les 0.2 secondes
+                distance_arrosoir+=difftime(date_debut,date_fin)*vitesse;
+                time(&date_debut);
+            }
+        }
+         sleep(temps);
+    }
+}
