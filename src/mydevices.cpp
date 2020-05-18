@@ -136,6 +136,7 @@ void AnalogSensorHumiditySoil::run(){
             Plantation[1]=100;
             Plantation[2]=150;
             Plantation[3]=200;
+            cpt=2; //Empeche une autre initialisation
     }
     val=Plantation[numeroPlante];
     alea=1-alea;
@@ -261,30 +262,20 @@ void AnalogActuatorServoInclinaison::run(){
             }
             time(&date_fin);
             if (difftime(date_fin,date_debut)>0.2){ //Actualisation de l'angle
-                angle+=difftime(date_fin,date_debut)*(double)vitesse*0.01;
+                angle+=difftime(date_fin,date_debut)*(double)vitesse*5;
                 time(&date_debut);
             }
         }
-        //Lien entre angle et humidité du sol au pied de la plante
-        switch((int)distance_arrosoir)
-        {
-            case (DISTANCE_PLANTE_1) :
-                Plantation[1]+=(10*angle)/45;
-                break;
-            case DISTANCE_PLANTE_2 :
-                Plantation[2]+=(10*angle)/45;
-                break;
-            case DISTANCE_PLANTE_3 :
-                Plantation[3]+=(10*angle)/45;
-                break;
-            case (DISTANCE_PLANTE_1+1):
-                 Plantation[1]+=(10*angle)/45;
-                break;
-            case (DISTANCE_PLANTE_1-1):
-                 Plantation[1]+=(10*angle)/45;
-                break;
-            default:
-                break;
+
+         //Lien entre angle et humidité du sol au pied de la plante
+        if ((distance_arrosoir>(DISTANCE_PLANTE_1-5))&&(distance_arrosoir<(DISTANCE_PLANTE_1+5))){
+             Plantation[1]+=(10*angle)/45;
+        }
+        if ((distance_arrosoir>(DISTANCE_PLANTE_2-5))&&(distance_arrosoir<(DISTANCE_PLANTE_2+5))){
+             Plantation[2]+=(10*angle)/45;
+        }
+        if ((distance_arrosoir>(DISTANCE_PLANTE_3-5))&&(distance_arrosoir<(DISTANCE_PLANTE_3+5))){
+             Plantation[3]+=(10*angle)/45;
         }
          sleep(temps);
     }

@@ -35,11 +35,12 @@ void Board::loop(){
   //Deplacement arrosoir jusqu'a position plante 1
   if (analogRead(PIN_RADAR)<DISTANCE_PLANTE_1){
      digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_DEPLACEMENT);
+      digitalWrite(PIN_SERVO_INCLINAISON,0);
   }
   else{
      digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
+      digitalWrite(PIN_SERVO_INCLINAISON,1);
   }
-  digitalWrite(PIN_SERVO_INCLINAISON,1);
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
 
