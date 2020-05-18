@@ -121,13 +121,15 @@ protected :
     int val;
       //Numero associant le senseur à une plante
     int numeroPlante;
-
+    //Variable statique indiquant le nombre de plante cree
+    static int cpt;
 public:
     //constructeur
     AnalogSensorHumiditySoil(int t,int plante);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
+
 
 class AnalogSensorHumidityAir : public AnalogSensorHumidity{
 protected :

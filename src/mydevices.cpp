@@ -2,6 +2,9 @@
 #include "mydevices.h"
 
 using namespace std;
+
+//Declaration compteur d'instance pour humidity sol
+int AnalogSensorHumiditySoil::cpt=0;
 //classe AnalogSensorTemperature
 AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):Device(),val(t),temps(d){
   alea=1;
@@ -123,9 +126,17 @@ AnalogSensorHumidity::AnalogSensorHumidity(int t):Device(),temps(t){
 AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t,int plante):AnalogSensorHumidity(t),val(luminosite_environnement){
     alea=1;
     numeroPlante=plante;
+    cpt++;
 }
+
 void AnalogSensorHumiditySoil::run(){
   while(1){
+        //Initialisation de la plantation si première instanciation
+    if (cpt==1){
+            Plantation[1]=100;
+            Plantation[2]=150;
+            Plantation[3]=200;
+    }
     val=Plantation[numeroPlante];
     alea=1-alea;
     if(ptrmem!=NULL)

@@ -2,7 +2,6 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 
-static bool premierPassage=false; //Booleen repérant le premier passage dans loop
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -33,14 +32,6 @@ void Board::loop(){
   static int cpt=0;
   static int bascule=0;
   int i=0;
-  //Initialisation de l'environnement (humidité du sol)
-  if (premierPassage==false){
-    Plantation[1]=100;
-    Plantation[2]=200;
-    Plantation[3]=300;
-    premierPassage=true;
-  }
-
   //Deplacement arrosoir jusqu'a position plante 1
   if (analogRead(PIN_RADAR)<DISTANCE_PLANTE_1){
      digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_DEPLACEMENT);
@@ -73,9 +64,6 @@ void Board::loop(){
      //Serial.println("Lecture de la distance");
     dist=analogRead(PIN_RADAR);
     sprintf(buf,"Distance de l'arrosoir %d",dist);
-    Serial.println(buf);
-    //Test humidité sol$
-    sprintf(buf,"Humidite lue %d ", Plantation[1]);
     Serial.println(buf);
    // if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
