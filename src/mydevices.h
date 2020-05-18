@@ -10,8 +10,25 @@
 #include <ctime>
 #include "core_simulation.h"
 
+
+
+#define PIN_LED1 0
+#define I2C_SCREEN 1
+#define I2C_LCD 2
+#define PIN_LED2 3
+#define PIN_BOUTON 4
+#define PIN_RADAR 5
+#define PIN_SERVO_ARROSOIR 8
+#define PIN_TEMP 9
+#define PIN_HUM_AIR 10
+#define PIN_HUM_SOIL 11
+#define PIN_LUMINOSITE 12
+
 //Varaiables globales pour la simulation de l'environnement
 static int luminosite_environnement=200;
+static int humidite_sol=100; //mesure en mV de l'humiditï¿½ dans le sol
+static int humidite_air=70 ;//mesure en % de l'humiditï¿½ dans l'air
+enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
 static double distance_arrosoir=0.0;
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
 class AnalogSensorTemperature: public Device {
@@ -60,7 +77,7 @@ public:
 
 class AnalogSensorLuminosity : public Device{
 protected :
-    //Valeur de luminosité captée
+    //Valeur de luminositï¿½ captï¿½e
     int val;
     //temps entre 2 affichages de la luminosite
     int temps;
@@ -77,7 +94,7 @@ class IntelligentDigitalActuatorLED : public Device{
 protected :
     //Etat de la LED
     int state;
-    //temps entre 2 affichages de l'état de la LED
+    //temps entre 2 affichages de l'ï¿½tat de la LED
     int temps;
 public:
     //constructeur
@@ -99,9 +116,60 @@ public:
      virtual void run();
 };
 
+
+class AnalogSensorHumidity : public Device{
+protected :
+
+    //temps entre 2 affichages de la luminosite
+    int temps;
+    //fait osciller la valeur du capteur de 1
+    int alea;
+public:
+    //constructeur
+    AnalogSensorHumidity(int t);
+};
+
+class AnalogSensorHumiditySoil : public AnalogSensorHumidity{
+protected :
+    //Valeur d'humidite captï¿½e en V
+    int val;
+
+public:
+    //constructeur
+    AnalogSensorHumiditySoil(int t);
+    // thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+
+class AnalogSensorHumidityAir : public AnalogSensorHumidity{
+protected :
+    //Valeur d'humidite captï¿½e en %
+    int val;
+
+public:
+    //constructeur
+    AnalogSensorHumidityAir(int t);
+    // thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+
+//ï¿½cran LCD positionne sous chaque plante
+class LCDScreen : public Device{
+protected:
+    // memorise l'affichage de l'ecran
+  int etatSante;
+    int numeroPlante;
+    char buf[I2C_BUFFER_SIZE];
+public:
+  // constructeur
+  LCDScreen (int num);
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+  virtual void run();
+};
+
 class AnalogSensorRadar : public Device{
 protected :
-     //temps entre 2 affichages de l'état de la valeur
+     //temps entre 2 affichages de l'ï¿½tat de la valeur
     int temps;
     //distance entre le radar et l'arrosoir => ou se situe l'arrosoir dans la rangee
     double distance;
@@ -116,9 +184,9 @@ public:
 
 class AnalogActuatorServo : public Device{
 protected:
-    //Vitesse à laquelle l'arrosoir se deplace sur le rail (vitesse<0 => recule, vitesse >0 => avance)
+    //Vitesse ï¿½ laquelle l'arrosoir se deplace sur le rail (vitesse<0 => recule, vitesse >0 => avance)
     int vitesse;
-    //temps entre 2 affichages de l'état de la vitesse
+    //temps entre 2 affichages de l'ï¿½tat de la vitesse
     int temps;
 public:
     //constructeur
