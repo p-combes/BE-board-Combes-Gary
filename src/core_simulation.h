@@ -17,13 +17,16 @@
 #define TEMP 22
 #define HIGH 1
 #define LOW 0
+//Liste des PIN
 #define PIN_LED1 0
-#define PIN_LUMINOSITE 2
+#define I2C_SCREEN 1
+#define I2C_LCD 2
 #define PIN_LED2 3
 #define PIN_BOUTON 4
 #define PIN_RADAR 5
 #define PIN_SERVO_ARROSOIR 8
 #define PIN_TEMP 9
+#define PIN_LUMINOSITE 12
 #define TAILLE_POTAGER 20.0
 #define VITESSE_ARROSOIR 20
 #define MAX_I2C_DEVICES 4

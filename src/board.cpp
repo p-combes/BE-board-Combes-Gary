@@ -18,7 +18,7 @@ int main(){
   // branchement des capteurs actionneurs
   esp8266.pin(PIN_TEMP,temperature);
   esp8266.pin(PIN_LED1,led1);
-  esp8266.i2c(1,screen);
+  esp8266.i2c(I2C_SCREEN,screen);
   esp8266.pin(PIN_LUMINOSITE,lumino);
   esp8266.pin(PIN_LED2,led2);
   esp8266.pin(PIN_BOUTON,bouton);

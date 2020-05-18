@@ -5,7 +5,7 @@
 	<string.h>
 	"core_simulation.h"
 
-1589395661 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.h
+1589807825 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.h
 	<unistd.h>
 	<windows.h>
 	<iostream>
@@ -13,7 +13,7 @@
 	<thread>
 	<mutex>
 
-1589395135 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.cpp
+1589395888 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.cpp
 	"mydevices.h"
 
 1589389948 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.h
@@ -26,7 +26,7 @@
 	<ctime>
 	"core_simulation.h"
 
-1589393053 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\board.cpp
+1589807428 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\board.cpp
 	"core_simulation.h"
 	"mydevices.h"
 
