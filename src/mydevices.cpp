@@ -152,10 +152,11 @@ LCDScreen::LCDScreen (int num):Device(),numeroPlante(num){
 void LCDScreen::run(){
 
   while(1){
+
     if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
       Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
-
-        switch (etatSante)
+    cout << "---screen LCD :"<< buf << endl;
+       /* switch (etatSante)
         {
         case EXCELLENT :
             cout<<"*******LCD************"<<endl;
@@ -183,7 +184,7 @@ void LCDScreen::run(){
             break;
         default:
                 break;
-        }
+        }*/
     }
     sleep(1);
     }

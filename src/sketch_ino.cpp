@@ -8,9 +8,9 @@ void Board::setup(){
 
 // on fixe les pin en entree et en sorite en fonction des capteurs/actionneurs mis sur la carte
   pinMode(PIN_TEMP,INPUT);
-  pinMode(PIN_LED_1,OUTPUT);
-  pinMode(PIN_LUM,INPUT);
-  pinMode(PIN_LED_2,OUTPUT);
+  pinMode(PIN_LED1,OUTPUT);
+  pinMode(PIN_LUMINOSITE,INPUT);
+  pinMode(PIN_LED2,OUTPUT);
   pinMode(PIN_BOUTON,INPUT);
   pinMode(PIN_HUM_AIR,INPUT);
   pinMode(PIN_HUM_SOIL,INPUT);
@@ -34,7 +34,7 @@ void Board::loop(){
     // lecture sur la pin 1 : capteur de temperature
 
     val=analogRead(PIN_TEMP);
-    lum=analogRead(PIN_LUM);
+    lum=analogRead(PIN_LUMINOSITE);
     air =analogRead(PIN_HUM_AIR);
     sol=analogRead(PIN_HUM_SOIL);
     bouton=analogRead(PIN_BOUTON);
@@ -51,22 +51,23 @@ void Board::loop(){
 
    // if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
-    //  sprintf(buf,"%d",val);
-     // bus.write(I2C_SCREEN,buf,100);
+     sprintf(buf,"Temperature screen %d",val);
+      bus.write(I2C_SCREEN,buf,100);
+    sprintf(buf,"Etat de stante de la plante : %s","Excellente");
       bus.write(I2C_LCD,buf,100);
    // }
        cpt++;
     sleep(1);
   }
-   bouton=analogRead(PIN_BOUTON);
-  if (bouton==ON){digitalWrite(PIN_LED_2,LOW);}
-  else {digitalWrite(PIN_LED_2,HIGH);}
+ bouton=analogRead(PIN_BOUTON);
+  if (bouton==ON){digitalWrite(PIN_LED2,LOW);}
+  else {digitalWrite(PIN_LED2,HIGH);}
 // on eteint et on allume la LED
   if(bascule){
-    digitalWrite(PIN_LED_1,HIGH);
+    digitalWrite(PIN_LED1,HIGH);
   }
   else{
-    digitalWrite(PIN_LED_1,LOW);
+    digitalWrite(PIN_LED1,LOW);
   }
   bascule=1-bascule;
 

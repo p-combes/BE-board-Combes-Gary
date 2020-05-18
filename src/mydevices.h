@@ -9,17 +9,17 @@
 #include "core_simulation.h"
 
 
-
-#define PIN_TEMP 5
-#define PIN_LED_1 6
-#define PIN_LUM 7
-#define PIN_LED_2 8
-#define PIN_BOUTON 9
-#define PIN_HUM_AIR 10
-#define PIN_HUM_SOIL 11
-
+#define PIN_LED1 0
 #define I2C_SCREEN 1
 #define I2C_LCD 2
+#define PIN_LED2 3
+#define PIN_BOUTON 4
+#define PIN_RADAR 5
+#define PIN_SERVO_ARROSOIR 8
+#define PIN_TEMP 9
+#define PIN_HUM_AIR 10
+#define PIN_HUM_SOIL 11
+#define PIN_LUMINOSITE 12
 
 static int luminosite_environnement=200;
 static int humidite_sol=100; //mesure en mV de l'humidité dans le sol
