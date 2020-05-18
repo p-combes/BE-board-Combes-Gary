@@ -11,6 +11,8 @@ void Board::setup(){
   pinMode(PIN_LUMINOSITE,INPUT);
   pinMode(PIN_LED2,OUTPUT);
   pinMode(PIN_BOUTON,INPUT);
+  pinMode(PIN_RADAR,INPUT);
+  pinMode(PIN_SERVO_ARROSOIR,OUTPUT);
 }
 
 // la boucle de controle arduino
@@ -19,37 +21,54 @@ void Board::loop(){
   int val;
   int lum;
   int bouton;
+  int dist;
   static int cpt=0;
   static int bascule=0;
   int i=0;
+  digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR);
   for(i=0;i<10;i++){
-    // lecture sur la pin 1 : capteur de temperature
-    val=analogRead(1);
-    lum=analogRead(2);
-    bouton=analogRead(4);
+    // lecture capteur de temperature
+    //Serial.println("Lecture de la temperature");
+    val=analogRead(PIN_TEMP);
     sprintf(buf,"temperature %d",val);
     Serial.println(buf);
-    sprintf(buf,"luminosite %d",lum);
+    //Lecture capteur de luminosite
+    //Serial.println("Lecture de la luminosite");
+    lum=analogRead(PIN_LUMINOSITE);
+     sprintf(buf,"luminosite %d",lum);
     Serial.println(buf);
+    //lecture bouton
+    //Serial.println("Lecture du bouton");
+    bouton=analogRead(PIN_BOUTON);
     sprintf(buf,"Bouton en pos %d",bouton);
+    Serial.println(buf);
+    //lecture distance
+     //Serial.println("Lecture de la distance");
+    dist=analogRead(PIN_RADAR);
+    sprintf(buf,"Distance de l'arrosoir %d",dist);
     Serial.println(buf);
     if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
-      sprintf(buf,"%d",val);
-      bus.write(1,buf,100);
+        Serial.println("Envoi a l'ecran");
+        sprintf(buf,"%d",val);
+        bus.write(1,buf,100);
     }
     cpt++;
     sleep(1);
   }
-  bouton=analogRead(4);
-  if (bouton==ON){digitalWrite(3,LOW);}
-  else {digitalWrite(3,HIGH);}
+  //Serial.println("Ecriture vitesse arrosoir");
+
+  //Serial.println("Ecriture LED2 selon bouton");
+  bouton=analogRead(PIN_BOUTON);
+  if (bouton==ON){digitalWrite(PIN_LED2,LOW);}
+  else {digitalWrite(PIN_LED2,HIGH);}
+  //Serial.println("Basculement etat de la LED");
 // on eteint et on allume la LED
   if(bascule){
-    digitalWrite(0,HIGH);
+    digitalWrite(PIN_LED1,HIGH);
   }
   else{
-    digitalWrite(0,LOW);
+    digitalWrite(PIN_LED1,LOW);
   }
   bascule=1-bascule;
 

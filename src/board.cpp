@@ -12,6 +12,8 @@ int main(){
   AnalogSensorLuminosity lumino(DELAY);
   IntelligentDigitalActuatorLED led2(DELAY);
   ExternalDigitalSensorbutton bouton(DELAY);
+  AnalogSensorRadar radar(DELAY);
+  AnalogActuatorServo servo(DELAY);
 
   // branchement des capteurs actionneurs
   esp8266.pin(PIN_TEMP,temperature);
@@ -20,6 +22,8 @@ int main(){
   esp8266.pin(PIN_LUMINOSITE,lumino);
   esp8266.pin(PIN_LED2,led2);
   esp8266.pin(PIN_BOUTON,bouton);
+  esp8266.pin(PIN_RADAR,radar);
+  esp8266.pin(PIN_SERVO_ARROSOIR,servo);
   // allumage de la carte
   esp8266.run();
   return 0;

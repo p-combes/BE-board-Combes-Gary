@@ -6,9 +6,12 @@
 #include <unistd.h>
 #include <string.h>
 #include <fstream>
+#include <time.h>
+#include <ctime>
 #include "core_simulation.h"
 
 static int luminosite_environnement=200;
+static double distance_arrosoir=0.0;
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
 class AnalogSensorTemperature: public Device {
 private:
@@ -93,5 +96,33 @@ public:
     ExternalDigitalSensorbutton(int t);
      // thread representant le capteur et permettant de fonctionner independamment de la board
      virtual void run();
+};
+
+class AnalogSensorRadar : public Device{
+protected :
+     //temps entre 2 affichages de l'état de la valeur
+    int temps;
+    //distance entre le radar et l'arrosoir => ou se situe l'arrosoir dans la rangee
+    double distance;
+    //fait osciller la valeur du capteur de 1
+    int alea;
+public:
+    //constructeur
+    AnalogSensorRadar(int t);
+    // thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+
+class AnalogActuatorServo : public Device{
+protected:
+    //Vitesse à laquelle l'arrosoir se deplace sur le rail (vitesse<0 => recule, vitesse >0 => avance)
+    int vitesse;
+    //temps entre 2 affichages de l'état de la vitesse
+    int temps;
+public:
+    //constructeur
+    AnalogActuatorServo(int t);
+    //thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
 };
 #endif
