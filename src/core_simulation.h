@@ -13,6 +13,16 @@
 #include <thread>
 #include <mutex>
 
+#define PIN_LED1 0
+#define I2C_SCREEN 1
+#define I2C_LCD 2
+#define PIN_LED2 3
+#define PIN_BOUTON 4
+#define PIN_RADAR 5
+#define PIN_SERVO_ARROSOIR 8
+#define PIN_TEMP 9
+#define PIN_LUMINOSITE 12
+
 #define DELAY 3
 #define TEMP 22
 #define HIGH 1

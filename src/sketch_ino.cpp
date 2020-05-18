@@ -6,11 +6,11 @@ void Board::setup(){
   // on configure la vitesse de la liaison
   Serial.begin(9600);
 // on fixe les pin en entree et en sorite en fonction des capteurs/actionneurs mis sur la carte
-  pinMode(1,INPUT);
-  pinMode(0,OUTPUT);
-  pinMode(2,INPUT);
-  pinMode(3,OUTPUT);
-  pinMode(4,INPUT);
+  pinMode(PIN_TEMP,INPUT);
+  pinMode(PIN_LED1,OUTPUT);
+  pinMode(PIN_LUMINOSITE,INPUT);
+  pinMode(PIN_LED2,OUTPUT);
+  pinMode(PIN_BOUTON,INPUT);
 }
 
 // la boucle de controle arduino

@@ -14,12 +14,12 @@ int main(){
   ExternalDigitalSensorbutton bouton(DELAY);
 
   // branchement des capteurs actionneurs
-  esp8266.pin(1,temperature);
-  esp8266.pin(0,led1);
-  esp8266.i2c(1,screen);
-  esp8266.pin(2,lumino);
-  esp8266.pin(3,led2);
-  esp8266.pin(4,bouton);
+  esp8266.pin(PIN_TEMP,temperature);
+  esp8266.pin(PIN_LED1,led1);
+  esp8266.i2c(I2C_SCREEN,screen);
+  esp8266.pin(PIN_LUMINOSITE,lumino);
+  esp8266.pin(PIN_LED2,led2);
+  esp8266.pin(PIN_BOUTON,bouton);
   // allumage de la carte
   esp8266.run();
   return 0;
