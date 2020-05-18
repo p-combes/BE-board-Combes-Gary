@@ -132,10 +132,7 @@ protected :
 
 public:
     //constructeur
-    AnalogSensorHumiditySoil(int t):AnalogSensorHumidity(t){
-        val=humidite_sol;
-
-    };
+    AnalogSensorHumiditySoil(int t);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
@@ -147,9 +144,7 @@ protected :
 
 public:
     //constructeur
-    AnalogSensorHumidityAir(int t):AnalogSensorHumidity(t){
-        val=humidite_air;
-    };
+    AnalogSensorHumidityAir(int t);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };

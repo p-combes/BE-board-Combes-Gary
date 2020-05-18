@@ -116,6 +116,9 @@ AnalogSensorHumidity::AnalogSensorHumidity(int t):Device(),temps(t){
 }
 
 //class AnalogSensorHumiditySoil
+AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t):AnalogSensorHumidity(t),val(luminosite_environnement){
+    alea=1;
+}
 void AnalogSensorHumiditySoil::run(){
   while(1){
     val=humidite_sol;
@@ -128,9 +131,13 @@ void AnalogSensorHumiditySoil::run(){
 
 //class AnalogSensorHumidityAir
 
+AnalogSensorHumidityAir::AnalogSensorHumidityAir(int t):AnalogSensorHumidity(t),val(luminosite_environnement){
+    alea=1;
+}
 void AnalogSensorHumidityAir::run(){
   while(1){
     val=humidite_air;
+
     alea=1-alea;
     if(ptrmem!=NULL)
       *ptrmem=val+alea;

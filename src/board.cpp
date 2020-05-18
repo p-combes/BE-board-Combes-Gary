@@ -19,16 +19,16 @@ int main(){
 
   // branchement des capteurs actionneurs
   esp8266.pin(PIN_TEMP,temperature);
-  esp8266.pin(0,led1);
+  esp8266.pin(PIN_LED_1,led1);
 
 
-  esp8266.pin(2,lumino);
-  esp8266.pin(3,led2);
-  esp8266.pin(4,bouton);
-  esp8266.pin(6,humAir);
-  esp8266.pin(7,humSol);
+  esp8266.pin(PIN_LUM,lumino);
+  esp8266.pin(PIN_LED_2,led2);
+  esp8266.pin(PIN_BOUTON,bouton);
+  esp8266.pin(PIN_HUM_AIR,humAir);
+  esp8266.pin(PIN_HUM_SOIL,humSol);
 
- esp8266.i2c(1,screen);
+ esp8266.i2c(I2C_SCREEN,screen);
 
   esp8266.i2c(I2C_LCD,lcd);
   // allumage de la carte

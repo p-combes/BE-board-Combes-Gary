@@ -48,10 +48,11 @@ void Board::loop(){
     Serial.println(buf);
     sprintf(buf,"Bouton en pos %d",bouton);
     Serial.println(buf);
+
    // if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
-      sprintf(buf,"%d",val);
-      bus.write(I2C_SCREEN,buf,100);
+    //  sprintf(buf,"%d",val);
+     // bus.write(I2C_SCREEN,buf,100);
       bus.write(I2C_LCD,buf,100);
    // }
        cpt++;
