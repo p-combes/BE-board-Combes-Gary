@@ -114,6 +114,86 @@ AnalogSensorRadar::AnalogSensorRadar(int t):temps(t),distance(distance_arrosoir)
     alea=1;
 }
 
+//class AnalogSensorHumidity
+AnalogSensorHumidity::AnalogSensorHumidity(int t):Device(),temps(t){
+    alea=1;
+}
+
+//class AnalogSensorHumiditySoil
+AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t):AnalogSensorHumidity(t),val(luminosite_environnement){
+    alea=1;
+}
+void AnalogSensorHumiditySoil::run(){
+  while(1){
+    val=humidite_sol;
+    alea=1-alea;
+    if(ptrmem!=NULL)
+      *ptrmem=val+alea;
+    sleep(temps);
+  }
+}
+
+//class AnalogSensorHumidityAir
+
+AnalogSensorHumidityAir::AnalogSensorHumidityAir(int t):AnalogSensorHumidity(t),val(luminosite_environnement){
+    alea=1;
+}
+void AnalogSensorHumidityAir::run(){
+  while(1){
+    val=humidite_air;
+
+    alea=1-alea;
+    if(ptrmem!=NULL)
+      *ptrmem=val+alea;
+    sleep(temps);
+  }
+}
+
+// classe I2CActuatorLCD
+LCDScreen::LCDScreen (int num):Device(),numeroPlante(num){
+  }
+
+void LCDScreen::run(){
+
+  while(1){
+
+    if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
+      Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
+    cout << "---screen LCD :"<< buf << endl;
+       /* switch (etatSante)
+        {
+        case EXCELLENT :
+            cout<<"*******LCD************"<<endl;
+            cout << "La plante numero"<<numeroPlante<<" est en parfaite sante\n\n";
+            cout<<"******************"<<endl;
+            break;
+        case BON :
+            cout<<"*******LCD************"<<endl;
+            cout << "La plante numero"<<numeroPlante<<" est en bonne sante\n\n";
+            cout<<"******************"<<endl;
+            break;
+        case DESSECHEE:
+            cout<<"*******LCD************"<<endl;
+            cout << "La plante numero"<<numeroPlante<<" est en dessechee\n\n";
+            cout<<"******************"<<endl;
+            break;
+        case NOYEE:
+            cout<<"*******LCD************"<<endl;
+            cout << "La plante numero"<<numeroPlante<<" est en train de se noyer\n\n";
+            break;
+        case MORTE:
+            cout<<"*******LCD************"<<endl;
+            cout << "La plante numero"<<numeroPlante<<" est malheureusement morte\n\n";
+            cout<<"******************"<<endl;
+            break;
+        default:
+                break;
+        }*/
+    }
+    sleep(1);
+    }
+}
+
 void AnalogSensorRadar::run(){
     while(1){
     distance=distance_arrosoir;
@@ -129,7 +209,7 @@ AnalogActuatorServo::AnalogActuatorServo(int t):vitesse(0),temps(t){
 }
 
 void AnalogActuatorServo::run(){
- int vitesse_old; //permet de détecter un changement dans la vitesse
+ int vitesse_old; //permet de dï¿½tecter un changement dans la vitesse
  time_t date_debut; //date de changement de vitesse
  time_t date_fin; //date de changement de vitesse
     while(1){

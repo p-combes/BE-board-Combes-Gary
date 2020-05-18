@@ -15,13 +15,21 @@ int main(){
   AnalogSensorRadar radar(DELAY);
   AnalogActuatorServo servo(DELAY);
 
+  AnalogSensorHumidityAir humAir(DELAY);
+  AnalogSensorHumiditySoil humSol(DELAY);
+  LCDScreen lcd(I2C_LCD);
+
   // branchement des capteurs actionneurs
   esp8266.pin(PIN_TEMP,temperature);
   esp8266.pin(PIN_LED1,led1);
-  esp8266.i2c(I2C_SCREEN,screen);
   esp8266.pin(PIN_LUMINOSITE,lumino);
   esp8266.pin(PIN_LED2,led2);
   esp8266.pin(PIN_BOUTON,bouton);
+  esp8266.pin(PIN_HUM_AIR,humAir);
+  esp8266.pin(PIN_HUM_SOIL,humSol);
+
+  esp8266.i2c(I2C_SCREEN,screen);
+  esp8266.i2c(I2C_LCD,lcd);
   esp8266.pin(PIN_RADAR,radar);
   esp8266.pin(PIN_SERVO_ARROSOIR,servo);
   // allumage de la carte

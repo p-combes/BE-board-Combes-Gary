@@ -58,3 +58,37 @@
 	<unistd.h>
 	"core_simulation.h"
 
+1589809710 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\board.cpp
+	"core_simulation.h"
+	"mydevices.h"
+
+1589809541 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\core_simulation.h
+	<unistd.h>
+	<windows.h>
+	<iostream>
+	<string>
+	<thread>
+	<mutex>
+
+1589808506 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\mydevices.h
+	<iostream>
+	<thread>
+	<unistd.h>
+	<string.h>
+	<fstream>
+	"core_simulation.h"
+
+1589283512 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\core_simulation.cpp
+	<thread>
+	<unistd.h>
+	<string.h>
+	"core_simulation.h"
+
+1589810365 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\mydevices.cpp
+	"mydevices.h"
+
+1589810473 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\sketch_ino.cpp
+	<unistd.h>
+	"core_simulation.h"
+	"mydevices.h"
+
