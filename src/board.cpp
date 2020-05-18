@@ -13,7 +13,7 @@ int main(){
   IntelligentDigitalActuatorLED led2(DELAY);
   ExternalDigitalSensorbutton bouton(DELAY);
   AnalogSensorRadar radar(DELAY);
-  AnalogActuatorServo servo(DELAY);
+  AnalogActuatorServoRail servo(DELAY);
 
   // branchement des capteurs actionneurs
   esp8266.pin(PIN_TEMP,temperature);

@@ -128,7 +128,9 @@ void AnalogSensorRadar::run(){
 AnalogActuatorServo::AnalogActuatorServo(int t):vitesse(0),temps(t){
 }
 
-void AnalogActuatorServo::run(){
+//classe AnalogActuatorServoRail
+
+void AnalogActuatorServoRail::run(){
  int vitesse_old; //permet de détecter un changement dans la vitesse
  time_t date_debut; //date de changement de vitesse
  time_t date_fin; //date de changement de vitesse
@@ -150,3 +152,5 @@ void AnalogActuatorServo::run(){
          sleep(temps);
     }
 }
+
+

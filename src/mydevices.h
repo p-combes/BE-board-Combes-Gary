@@ -10,6 +10,7 @@
 #include <ctime>
 #include "core_simulation.h"
 
+//Varaiables globales pour la simulation de l'environnement
 static int luminosite_environnement=200;
 static double distance_arrosoir=0.0;
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
@@ -122,6 +123,20 @@ protected:
 public:
     //constructeur
     AnalogActuatorServo(int t);
+    //thread representant le capteur et permettant de fonctionner independamment de la board
+};
+
+class AnalogActuatorServoRail : public AnalogActuatorServo{
+public:
+    //constructeur
+    AnalogActuatorServoRail(int t):AnalogActuatorServo(t){}
+    //thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+
+class AnalogActuatorServoInclinaison : public AnalogActuatorServo{
+    //constructeur
+    AnalogActuatorServoInclinaison(int t):AnalogActuatorServo(t){}
     //thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
