@@ -117,12 +117,12 @@ AnalogSensorRadar::AnalogSensorRadar(int t):temps(t),distance(distance_arrosoir)
 //class AnalogSensorHumidity
 AnalogSensorHumidity::AnalogSensorHumidity(int t):Device(),temps(t){
     alea=1;
-    numeroPlante=0;
 }
 
 //class AnalogSensorHumiditySoil
-AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t):AnalogSensorHumidity(t),val(luminosite_environnement){
+AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t,int plante):AnalogSensorHumidity(t),val(luminosite_environnement){
     alea=1;
+    numeroPlante=plante;
 }
 void AnalogSensorHumiditySoil::run(){
   while(1){
@@ -257,7 +257,7 @@ void AnalogActuatorServoInclinaison::run(){
         //Lien entre angle et humidité du sol au pied de la plante
         switch((int)distance_arrosoir)
         {
-            case DISTANCE_PLANTE_1 :
+            case (DISTANCE_PLANTE_1) :
                 Plantation[1]+=(10*angle)/45;
                 break;
             case DISTANCE_PLANTE_2 :
@@ -265,6 +265,12 @@ void AnalogActuatorServoInclinaison::run(){
                 break;
             case DISTANCE_PLANTE_3 :
                 Plantation[3]+=(10*angle)/45;
+                break;
+            case (DISTANCE_PLANTE_1+1):
+                 Plantation[1]+=(10*angle)/45;
+                break;
+            case (DISTANCE_PLANTE_1-1):
+                 Plantation[1]+=(10*angle)/45;
                 break;
             default:
                 break;

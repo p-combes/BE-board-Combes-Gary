@@ -13,10 +13,10 @@ int main(){
   IntelligentDigitalActuatorLED led2(DELAY);
   ExternalDigitalSensorbutton bouton(DELAY);
   AnalogSensorRadar radar(DELAY);
-  AnalogActuatorServoRail servo(DELAY);
-
+  AnalogActuatorServoRail servoRail(DELAY);
+  AnalogActuatorServoInclinaison servoIncl(DELAY);
   AnalogSensorHumidityAir humAir(DELAY);
-  AnalogSensorHumiditySoil humSol(DELAY);
+  AnalogSensorHumiditySoil humSol(DELAY,1);
   LCDScreen lcd(I2C_LCD);
 
   // branchement des capteurs actionneurs
@@ -27,11 +27,11 @@ int main(){
   esp8266.pin(PIN_BOUTON,bouton);
   esp8266.pin(PIN_HUM_AIR,humAir);
   esp8266.pin(PIN_HUM_SOIL,humSol);
-
+  esp8266.pin(PIN_SERVO_INCLINAISON, servoIncl);
   esp8266.i2c(I2C_SCREEN,screen);
   esp8266.i2c(I2C_LCD,lcd);
   esp8266.pin(PIN_RADAR,radar);
-  esp8266.pin(PIN_SERVO_ARROSOIR,servo);
+  esp8266.pin(PIN_SERVO_ARROSOIR,servoRail);
   // allumage de la carte
   esp8266.run();
   return 0;

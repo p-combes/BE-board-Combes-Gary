@@ -110,8 +110,6 @@ protected :
     int temps;
     //fait osciller la valeur du capteur de 1
     int alea;
-    //Numero associant le senseur à une plante
-    int numeroPlante;
 public:
     //constructeur
     AnalogSensorHumidity(int t);
@@ -121,10 +119,12 @@ class AnalogSensorHumiditySoil : public AnalogSensorHumidity{
 protected :
     //Valeur d'humidite capt�e en V
     int val;
+      //Numero associant le senseur à une plante
+    int numeroPlante;
 
 public:
     //constructeur
-    AnalogSensorHumiditySoil(int t);
+    AnalogSensorHumiditySoil(int t,int plante);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
