@@ -13,15 +13,6 @@
 #include <thread>
 #include <mutex>
 
-#define PIN_LED1 0
-#define I2C_SCREEN 1
-#define I2C_LCD 2
-#define PIN_LED2 3
-#define PIN_BOUTON 4
-#define PIN_RADAR 5
-#define PIN_SERVO_ARROSOIR 8
-#define PIN_TEMP 9
-#define PIN_LUMINOSITE 12
 
 #define DELAY 3
 #define TEMP 22
@@ -36,9 +27,18 @@
 #define PIN_RADAR 5
 #define PIN_SERVO_ARROSOIR 8
 #define PIN_TEMP 9
+#define PIN_HUM_AIR 10
+#define PIN_HUM_SOIL 11
 #define PIN_LUMINOSITE 12
+
+
+
+#define ANGLE_MAX 45.0
 #define TAILLE_POTAGER 20.0
 #define VITESSE_ARROSOIR 20
+#define DISTANCE_PLANTE_1 10
+#define DISTANCE_PLANTE_2 15
+#define DISTANCE_PLANTE_3 20
 #define MAX_I2C_DEVICES 4
 #define I2C_BUFFER_SIZE 1024
 #define MAX_IO_PIN 20

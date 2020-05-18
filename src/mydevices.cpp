@@ -117,6 +117,7 @@ AnalogSensorRadar::AnalogSensorRadar(int t):temps(t),distance(distance_arrosoir)
 //class AnalogSensorHumidity
 AnalogSensorHumidity::AnalogSensorHumidity(int t):Device(),temps(t){
     alea=1;
+    numeroPlante=0;
 }
 
 //class AnalogSensorHumiditySoil
@@ -125,7 +126,7 @@ AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t):AnalogSensorHumidity(t
 }
 void AnalogSensorHumiditySoil::run(){
   while(1){
-    val=humidite_sol;
+    val=Plantation[numeroPlante];
     alea=1-alea;
     if(ptrmem!=NULL)
       *ptrmem=val+alea;
@@ -233,4 +234,42 @@ void AnalogActuatorServoRail::run(){
     }
 }
 
+//Classe AnalogActuatorServoInclinaison
+void AnalogActuatorServoInclinaison::run(){
+ int vitesse_old; //permet de dï¿½tecter un changement dans la vitesse
+ time_t date_debut; //date de changement de vitesse
+ time_t date_fin; //date de changement de vitesse
+    while(1){
+        if(ptrmem!=NULL){
+            vitesse_old=vitesse;
+            vitesse=*ptrmem;
+        }
+        if ((angle< ANGLE_MAX)){ //tant qu'on est pas a l'angle max, on peut continuer a incliner l'arrosoir
+            if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'inclinaison
+                time(&date_debut);
+            }
+            time(&date_fin);
+            if (difftime(date_fin,date_debut)>0.2){ //Actualisation de l'angle
+                angle+=difftime(date_fin,date_debut)*(double)vitesse*0.01;
+                time(&date_debut);
+            }
+        }
+        //Lien entre angle et humidité du sol au pied de la plante
+        switch((int)distance_arrosoir)
+        {
+            case DISTANCE_PLANTE_1 :
+                Plantation[1]+=(10*angle)/45;
+                break;
+            case DISTANCE_PLANTE_2 :
+                Plantation[2]+=(10*angle)/45;
+                break;
+            case DISTANCE_PLANTE_3 :
+                Plantation[3]+=(10*angle)/45;
+                break;
+            default:
+                break;
+        }
+         sleep(temps);
+    }
+}
 

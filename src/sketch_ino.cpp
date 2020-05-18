@@ -18,6 +18,11 @@ void Board::setup(){
 
   pinMode(PIN_RADAR,INPUT);
   pinMode(PIN_SERVO_ARROSOIR,OUTPUT);
+
+  //Initialisation de la map représentant la plantation
+  Plantation[1]=100;
+  Plantation[2]=150;
+  Plantation[3]=200;
 }
 
 // la boucle de controle arduino

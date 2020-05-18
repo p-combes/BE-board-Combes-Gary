@@ -8,28 +8,15 @@
 #include <fstream>
 #include <time.h>
 #include <ctime>
+#include<map>
 #include "core_simulation.h"
-
-
-
-#define PIN_LED1 0
-#define I2C_SCREEN 1
-#define I2C_LCD 2
-#define PIN_LED2 3
-#define PIN_BOUTON 4
-#define PIN_RADAR 5
-#define PIN_SERVO_ARROSOIR 8
-#define PIN_TEMP 9
-#define PIN_HUM_AIR 10
-#define PIN_HUM_SOIL 11
-#define PIN_LUMINOSITE 12
 
 //Varaiables globales pour la simulation de l'environnement
 static int luminosite_environnement=200;
-static int humidite_sol=100; //mesure en mV de l'humidit� dans le sol
 static int humidite_air=70 ;//mesure en % de l'humidit� dans l'air
 enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
 static double distance_arrosoir=0.0;
+static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
 class AnalogSensorTemperature: public Device {
 private:
@@ -119,11 +106,12 @@ public:
 
 class AnalogSensorHumidity : public Device{
 protected :
-
     //temps entre 2 affichages de la luminosite
     int temps;
     //fait osciller la valeur du capteur de 1
     int alea;
+    //Numero associant le senseur à une plante
+    int numeroPlante;
 public:
     //constructeur
     AnalogSensorHumidity(int t);
@@ -203,8 +191,12 @@ public:
 };
 
 class AnalogActuatorServoInclinaison : public AnalogActuatorServo{
+protected :
+    //angle d'inclinaison
+    double angle;
+public :
     //constructeur
-    AnalogActuatorServoInclinaison(int t):AnalogActuatorServo(t){}
+    AnalogActuatorServoInclinaison(int t):AnalogActuatorServo(t),angle(0.0){}
     //thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
