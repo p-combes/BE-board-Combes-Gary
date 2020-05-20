@@ -261,7 +261,7 @@ void AnalogActuatorServoInclinaison::run(){
             vitesse_old=vitesse;
             vitesse=*ptrmem;
         }
-        if ((angle_arrosoir< ANGLE_MAX)){ //tant qu'on est pas a l'angle max, on peut continuer a incliner l'arrosoir
+        if ((angle_arrosoir< ANGLE_MAX)||((angle_arrosoir>=ANGLE_MAX)&&(vitesse<0))){ //tant qu'on est pas a l'angle max, on peut continuer a incliner l'arrosoir
             if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'inclinaison
                 time(&date_debut);
             }
@@ -271,6 +271,8 @@ void AnalogActuatorServoInclinaison::run(){
                 time(&date_debut);
             }
         }
+        //Empeche l'angle d'etre <0
+        if (angle_arrosoir<0.0){angle_arrosoir=0.0;}
 
          //Lien entre angle et humidité du sol au pied de la plante
         if ((distance_arrosoir>(DISTANCE_PLANTE_1-5))&&(distance_arrosoir<(DISTANCE_PLANTE_1+5))){

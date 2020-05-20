@@ -34,26 +34,40 @@ void Arrosoir::deplacerArrosoir(double positionPlante, Board* arduino){
     }
 }
 
-//Methode liee a l'arrosage
-/*void Arrosoir::inclinerArrosoir(double angle,Board* arduino, AnalogActuatorServoInclinaison* servo){
+//Methode liee a l'arrosage => On incline de 45° l'arrosoir pour arroser, sinon on ne l'incline pas. Le int arrosage définit si on vzeut arroser ou non
+///inclinerArrosoir(ARROSAGE,this) => Arrosage (inclinaison de 45°)
+///inclinerArrosoir(PAS_ARROSAGE,this)=> Pas arrosage (inclinaison de 0°)
+void Arrosoir::inclinerArrosoir(int arrosage,Board* arduino){
     //Arrosage possible uniquement si l'on est pas en deplacement
     if (state != EnDeplacement){
-            //Si on a pas atteint l'inclinaison souhaitee, on continue a avancer
-        if ((servo->angle)<angle){
-            arduino->digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_ON);
+        //Si on veut arroser et qu'on a pas atteint l'angle voulu => on continue a avancer
+        if ((arduino->analogRead(PIN_ANGULAR)<ANGLE_MAX)&&(arrosage==ARROSAGE)){
+            arduino->digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_AVANT);
         }
-        //Sinon on arrete le deplacement
+        //Si on veut arroser et qu'on est déjà incliné => arret du servo
+        else if ((arduino->analogRead(PIN_ANGULAR)>=ANGLE_MAX)&&(arrosage==ARROSAGE)){
+            arduino->digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
+        }
+        //Si on veut arreter l'arrosage et que l'angle n'est pas egal à 0=> on recule
+         else if (((arduino->analogRead(PIN_ANGULAR))>1)&&(arrosage==PAS_ARROSAGE)){
+            arduino->digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_ARRIERE);
+        }
+        //Enfin, si on veut arreter l'arrosage et qu'on est deja a 0=> on arrete le servo
+        else if (((arduino->analogRead(PIN_ANGULAR))<=1)&&(arrosage==PAS_ARROSAGE)){
+            arduino->digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
+        }
+        //Mise a jour de l'etat de l'arrosoir
+        if (((arduino->analogRead(PIN_ANGULAR))<=1)&&(state==EnArrosage)&&(arrosage==PAS_ARROSAGE)){ //si on a fini l'arrosage => l'arrosoir passe en arret
+                state=Arrete;
+        }
+        else if ((arduino->analogRead(PIN_ANGULAR))>1) {  //si l'angle n'est pas à 0, on est en arrosage ou en train d'arreter
+                state=EnArrosage;
+        }
+
+    }
+    //Si on est en deplacement = pas d'arrosage
     else{
         arduino->digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
     }
-    //Mise a jour de l'etat de l'arrosoir
-    if (((servo->angle)==0)&&(state==EnArrosage)){ //si on a fini l'arrosage => l'arrosoir passe en arret
-            state=Arrete;
-    }
-    else if ((servo->angle)!=0) {  //si l'angle n'est pas à 0, on est en arrosage
-            state=EnArrosage;
-    }
-
-    }
-}*/
+}
 

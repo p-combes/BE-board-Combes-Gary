@@ -36,10 +36,12 @@ void Board::loop(){
   static int cpt=0;
   static int bascule=0;
   int i=0;
-  digitalWrite(PIN_SERVO_INCLINAISON,0);
   arros.deplacerArrosoir(10.0,this);
-  if (analogRead(PIN_RADAR)>8.0){
-    digitalWrite(PIN_SERVO_INCLINAISON,1);
+  if ((analogRead(PIN_RADAR)>8.0)&&(analogRead(PIN_HUM_SOIL)<150)){
+    arros.inclinerArrosoir(ARROSAGE,this);
+  }
+  else{
+    arros.inclinerArrosoir(PAS_ARROSAGE,this);
   }
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature

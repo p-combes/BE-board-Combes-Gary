@@ -13,7 +13,7 @@ public:
     Arrosoir();
     //methodes pour l'arrosage
     void deplacerArrosoir(double positionPlante, Board* arduino);
-    void inclinerArrosoir(double angle, Board* arduino, AnalogActuatorServoInclinaison* servo);
+    void inclinerArrosoir(int arrosage, Board* arduino);
 };
 
 
