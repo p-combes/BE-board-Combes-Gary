@@ -230,6 +230,7 @@ AnalogActuatorServo::AnalogActuatorServo(int t): Actuator(t),vitesse(0){
 
 void AnalogActuatorServoRail::run(){
  int vitesse_old; //permet de d�tecter un changement dans la vitesse
+ int vitesse_abs; //permet de gerer les vitesses negatives
  time_t date_debut; //date de changement de vitesse
  time_t date_fin; //date de changement de vitesse
     while(1){
@@ -237,14 +238,35 @@ void AnalogActuatorServoRail::run(){
             vitesse_old=vitesse;
             vitesse=*ptrmem;
         }
+        switch(vitesse){
+    case VITESSE_ARROSOIR_RECULE_LENT: //Gestion vitesses negatives (on ne peut pas ecrire de chiffre<0 sur les PIN
+        vitesse=-20;
+        break;
+    case VITESSE_ARROSOIR_RECULE_RAPIDE:
+        vitesse=-40;
+        break;
+        }
+        vitesse_abs=abs(vitesse);//Gestion si vitesse negative
         if ((distance_arrosoir < TAILLE_POTAGER)){ //tant qu'on est pas au bout du potager, on continue a avancer
-            if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'arrosoir
+            if ((vitesse_old==0)&&(vitesse_abs!=vitesse_old)){//Detecte le demarrage de l'arrosoir
                 time(&date_debut);
             }
             time(&date_fin);
-            if (difftime(date_fin,date_debut)>0.2){ //Actualisation de la distance de l'arrosoir toutes les 0.2 secondes
-                distance_arrosoir+=difftime(date_fin,date_debut)*(double)vitesse*0.01;
-                time(&date_debut);
+            //Si on est a l'arret, il ne faut plus actualiser distance arrosoir et remettre les dates de fin et debut a 0
+            if ((vitesse_old==0)&&(vitesse_abs==vitesse_old)){
+                distance_arrosoir=distance_arrosoir;
+                date_debut=0;
+                date_fin=0;
+            }
+            else{ //Si on est pas a l'arret, on actualise la distance toute les 0.2 secondes
+                if (difftime(date_fin,date_debut)>0.2){ //Actualisation de la distance de l'arrosoir toutes les 0.2 secondes
+                    if (vitesse>0)
+                        distance_arrosoir+=difftime(date_fin,date_debut)*(double)vitesse_abs*0.01;
+                    else
+                        distance_arrosoir-=difftime(date_fin,date_debut)*(double)vitesse_abs*0.01;
+
+                    time(&date_debut);
+                }
             }
         }
          sleep(temps);

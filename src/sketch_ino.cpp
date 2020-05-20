@@ -2,7 +2,7 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 #include "Arosoir.cpp"
-
+static bool premierPassage=false;
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -37,11 +37,15 @@ void Board::loop(){
   static int bascule=0;
   int i=0;
   digitalWrite(PIN_SERVO_INCLINAISON,0);
-  if ((analogRead(PIN_RADAR)>8.0)){
-    arros.deplacerArrosoir(5.0,this);
-  }
-  else{
+
+  if((premierPassage==false)&&(analogRead(PIN_RADAR)<=9.0)){
     arros.deplacerArrosoir(10.0,this);
+  }
+  if (analogRead(PIN_RADAR)>=9.0){
+    premierPassage=true;
+  }
+  if (premierPassage){
+    arros.deplacerArrosoir(5.0,this);
   }
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
