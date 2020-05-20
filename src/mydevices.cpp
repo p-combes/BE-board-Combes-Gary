@@ -266,6 +266,10 @@ void AnalogActuatorServoInclinaison::run(){
                 time(&date_debut);
             }
         }
+        //Ligne indiquant qu'on ne peut pas avoir un angle negatif
+        if(angle<0){
+            angle=0;
+        }
 
          //Lien entre angle et humidité du sol au pied de la plante
         if ((distance_arrosoir>(DISTANCE_PLANTE_1-5))&&(distance_arrosoir<(DISTANCE_PLANTE_1+5))){

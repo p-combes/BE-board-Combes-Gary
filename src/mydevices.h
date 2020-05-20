@@ -194,6 +194,8 @@ public:
 
 class AnalogActuatorServoInclinaison : public AnalogActuatorServo{
 protected :
+    //Permet a la fonction d'inclinaison de l'arrosoir de connaitre l'angle actuel
+    friend class Arrosoir;
     //angle d'inclinaison
     double angle;
 public :
