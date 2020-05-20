@@ -52,7 +52,7 @@ void Board::loop(){
     Serial.println(buf);
     //Lecture capteur de luminosite
     //Serial.println("Lecture de la luminosite");
-    lum=analogRead(PIN_LUMINOSITE);
+    lum=measureLuminosity(this);
      sprintf(buf,"luminosite %d",lum);
     Serial.println(buf);
     air = measureAirHumidity(this);

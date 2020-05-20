@@ -19,11 +19,14 @@ int measureSoilHumidity (int numeroPlante, Board* arduino){
             throw EXCEPTION_NB_PLANTE;
     }
     humidity = arduino->analogRead(pinToRead);
-    cout<<"coucou"<<humidity<<endl;
     return humidity;
 }
 
 int measureAirHumidity(Board* arduino){
 
     return arduino->analogRead(PIN_HUM_AIR);
+}
+
+int measureLuminosity(Board* arduino){
+    return arduino->analogRead(PIN_LUMINOSITE);
 }
