@@ -30,3 +30,7 @@ int measureAirHumidity(Board* arduino){
 int measureLuminosity(Board* arduino){
     return arduino->analogRead(PIN_LUMINOSITE);
 }
+
+int measureTemperature(Board* arduino){
+    return arduino->analogRead(PIN_TEMP);
+}

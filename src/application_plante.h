@@ -14,4 +14,4 @@
 int measureSoilHumidity (int numeroPlante, Board* arduino);
 int measureAirHumidity(Board* arduino);
 int measureLuminosity(Board* arduino);
-//int measure Temperature();
+int measureTemperature(Board* arduino);

@@ -44,25 +44,28 @@ void Board::loop(){
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
 
-    val=analogRead(PIN_TEMP);
-   // air =analogRead(PIN_HUM_AIR);
-   // sol=analogRead(PIN_HUM_SOIL_1);
-    bouton=analogRead(PIN_BOUTON);
+
+    val=measureTemperature(this);
     sprintf(buf,"temperature %d",val);
     Serial.println(buf);
-    //Lecture capteur de luminosite
-    //Serial.println("Lecture de la luminosite");
+
+
     lum=measureLuminosity(this);
      sprintf(buf,"luminosite %d",lum);
     Serial.println(buf);
+
     air = measureAirHumidity(this);
     sprintf(buf,"humidite air %d",air);
     Serial.println(buf);
+
     sol = measureSoilHumidity(1,this);
     sprintf(buf,"humidite sol %d",sol);
     Serial.println(buf);
+
+    bouton=analogRead(PIN_BOUTON);
     sprintf(buf,"Bouton en pos %d",bouton);
     Serial.println(buf);
+
     //lecture distance
      //Serial.println("Lecture de la distance");
     dist=analogRead(PIN_RADAR);
