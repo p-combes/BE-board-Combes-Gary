@@ -261,27 +261,41 @@ void AnalogActuatorServoInclinaison::run(){
             vitesse_old=vitesse;
             vitesse=*ptrmem;
         }
-        if ((angle< ANGLE_MAX)){ //tant qu'on est pas a l'angle max, on peut continuer a incliner l'arrosoir
+        if ((angle_arrosoir< ANGLE_MAX)){ //tant qu'on est pas a l'angle max, on peut continuer a incliner l'arrosoir
             if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'inclinaison
                 time(&date_debut);
             }
             time(&date_fin);
             if (difftime(date_fin,date_debut)>0.2){ //Actualisation de l'angle
-                angle+=difftime(date_fin,date_debut)*(double)vitesse*5;
+                angle_arrosoir+=difftime(date_fin,date_debut)*(double)vitesse*5;
                 time(&date_debut);
             }
         }
 
          //Lien entre angle et humidité du sol au pied de la plante
         if ((distance_arrosoir>(DISTANCE_PLANTE_1-5))&&(distance_arrosoir<(DISTANCE_PLANTE_1+5))){
-             Plantation[1]+=(10*angle)/45;
+             Plantation[1]+=(10*angle_arrosoir)/45;
         }
         if ((distance_arrosoir>(DISTANCE_PLANTE_2-5))&&(distance_arrosoir<(DISTANCE_PLANTE_2+5))){
-             Plantation[2]+=(10*angle)/45;
+             Plantation[2]+=(10*angle_arrosoir)/45;
         }
         if ((distance_arrosoir>(DISTANCE_PLANTE_3-5))&&(distance_arrosoir<(DISTANCE_PLANTE_3+5))){
-             Plantation[3]+=(10*angle)/45;
+             Plantation[3]+=(10*angle_arrosoir)/45;
         }
          sleep(temps);
     }
+}
+
+//classe AnalogSensorAngular
+AnalogSensorAngular::AnalogSensorAngular(int t):AnalogSensor(t),angle(angle_arrosoir){
+}
+
+void AnalogSensorAngular::run(){
+    while(1){
+    angle=angle_arrosoir;
+    alea=1-alea;
+    if(ptrmem!=NULL)
+      *ptrmem=angle+alea;
+    sleep(temps);
+  }
 }
