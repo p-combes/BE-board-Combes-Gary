@@ -22,3 +22,8 @@ int measureSoilHumidity (int numeroPlante, Board* arduino){
     cout<<"coucou"<<humidity<<endl;
     return humidity;
 }
+
+int measureAirHumidity(Board* arduino){
+
+    return arduino->analogRead(PIN_HUM_AIR);
+}

@@ -12,6 +12,6 @@
 #define EXCEPTION_NB_PLANTE
 
 int measureSoilHumidity (int numeroPlante, Board* arduino);
-//int measureAirHumidity();
+int measureAirHumidity(Board* arduino);
 //int measureLuminosity();
 //int measure Temperature();
