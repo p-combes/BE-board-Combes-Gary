@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include "core_simulation.h"
 #include "mydevices.h"
+#include "Arrosoir.cpp"
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
@@ -23,6 +24,7 @@ void Board::setup(){
 // la boucle de controle arduino
 void Board::loop(){
   char buf[100];
+  Arrosoir arros;
   int val;
   int lum;
   int air;
@@ -32,15 +34,8 @@ void Board::loop(){
   static int cpt=0;
   static int bascule=0;
   int i=0;
-  //Deplacement arrosoir jusqu'a position plante 1
-  if (analogRead(PIN_RADAR)<DISTANCE_PLANTE_1){
-     digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_DEPLACEMENT);
-      digitalWrite(PIN_SERVO_INCLINAISON,0);
-  }
-  else{
-     digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
-      digitalWrite(PIN_SERVO_INCLINAISON,1);
-  }
+  digitalWrite(PIN_SERVO_INCLINAISON,0);
+  arros.deplacerArrosoir(10.0,this);
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
 

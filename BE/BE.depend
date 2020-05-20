@@ -29,7 +29,7 @@
 
 1589807825 D
 
-1589816372 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.h
+1589969204 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\core_simulation.h
 	<unistd.h>
 	<windows.h>
 	<iostream>
@@ -37,10 +37,10 @@
 	<thread>
 	<mutex>
 
-1589820511 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.cpp
+1589965649 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.cpp
 	"mydevices.h"
 
-1589819415 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.h
+1589965649 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\mydevices.h
 	<iostream>
 	<thread>
 	<unistd.h>
@@ -55,10 +55,11 @@
 	"core_simulation.h"
 	"mydevices.h"
 
-1589820597 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\sketch_ino.cpp
+1589971781 source:c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\sketch_ino.cpp
 	<unistd.h>
 	"core_simulation.h"
 	"mydevices.h"
+	"Arrosoir.cpp"
 
 1589809710 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\board.cpp
 	"core_simulation.h"
@@ -93,4 +94,11 @@
 	<unistd.h>
 	"core_simulation.h"
 	"mydevices.h"
+
+1589971588 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\arrosoir.h
+	"core_simulation.h"
+	"mydevices.h"
+
+1589971974 c:\users\gary romain\documents\cours\4a\becpp\be-board-combes-gary\src\arrosoir.cpp
+	"Arrosoir.h"
 
