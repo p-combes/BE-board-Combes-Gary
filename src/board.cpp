@@ -26,7 +26,7 @@ int main(){
   esp8266.pin(PIN_LED2,led2);
   esp8266.pin(PIN_BOUTON,bouton);
   esp8266.pin(PIN_HUM_AIR,humAir);
-  esp8266.pin(PIN_HUM_SOIL,humSol);
+  esp8266.pin(PIN_HUM_SOIL_1,humSol);
   esp8266.pin(PIN_SERVO_INCLINAISON, servoIncl);
   esp8266.i2c(I2C_SCREEN,screen);
   esp8266.i2c(I2C_LCD,lcd);

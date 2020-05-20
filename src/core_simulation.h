@@ -29,8 +29,10 @@
 #define PIN_SERVO_ARROSOIR 8
 #define PIN_TEMP 9
 #define PIN_HUM_AIR 10
-#define PIN_HUM_SOIL 11
-#define PIN_LUMINOSITE 12
+#define PIN_HUM_SOIL_1 11
+#define PIN_HUM_SOIL_2 12
+#define PIN_HUM_SOIL_3 13
+#define PIN_LUMINOSITE 14
 
 
 

@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include "core_simulation.h"
 #include "mydevices.h"
-
+#include "application_plante.h"
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -14,7 +14,7 @@ void Board::setup(){
   pinMode(PIN_LED2,OUTPUT);
   pinMode(PIN_BOUTON,INPUT);
   pinMode(PIN_HUM_AIR,INPUT);
-  pinMode(PIN_HUM_SOIL,INPUT);
+  pinMode(PIN_HUM_SOIL_1,INPUT);
   pinMode(PIN_SERVO_INCLINAISON,OUTPUT);
   pinMode(PIN_RADAR,INPUT);
   pinMode(PIN_SERVO_ARROSOIR,OUTPUT);
@@ -46,7 +46,7 @@ void Board::loop(){
 
     val=analogRead(PIN_TEMP);
     air =analogRead(PIN_HUM_AIR);
-    sol=analogRead(PIN_HUM_SOIL);
+   // sol=analogRead(PIN_HUM_SOIL_1);
     bouton=analogRead(PIN_BOUTON);
     sprintf(buf,"temperature %d",val);
     Serial.println(buf);
@@ -57,6 +57,7 @@ void Board::loop(){
     Serial.println(buf);
     sprintf(buf,"humidite air %d",air);
     Serial.println(buf);
+    sol = measureSoilHumidity(1,this);
     sprintf(buf,"humidite sol %d",sol);
     Serial.println(buf);
     sprintf(buf,"Bouton en pos %d",bouton);
