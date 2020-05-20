@@ -18,12 +18,17 @@ enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
 static double distance_arrosoir=0.0;
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
 
-
-
-class AnalogSensor : public Device{
-protected :
-    //temps entre 2 affichages de la luminosite
+class Sensor : public Device {
+protected:
+    //temps entre 2 affichages
     int temps;
+public :
+    Sensor(int t);
+
+};
+class AnalogSensor : public Sensor{
+protected :
+
     //fait osciller la valeur du capteur de 1
     int alea;
 public:
@@ -103,12 +108,11 @@ public:
     virtual void run();
 };
 
-class ExternalDigitalSensorbutton: public Device{
+class ExternalDigitalSensorbutton: public Sensor{
 protected :
     //Etat du bouton
     int state;
-    //temps de maj du bouton
-    int temps;
+
 public:
     //constructeur
     ExternalDigitalSensorbutton(int t);

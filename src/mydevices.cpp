@@ -6,9 +6,10 @@ using namespace std;
 //Declaration compteur d'instance pour humidity sol
 int AnalogSensorHumiditySoil::cpt=0;
 
-
+//class Sensor
+Sensor::Sensor(int t):Device(),temps(t){}
 //class AnalogSensor
-AnalogSensor::AnalogSensor(int t):Device(),temps(t){
+AnalogSensor::AnalogSensor(int t):Sensor(t){
     alea=1;
 }
 //classe AnalogSensorTemperature
@@ -102,7 +103,7 @@ while(1){
 }
 //Classe ExternalDigitalSensorbutton
 
-ExternalDigitalSensorbutton::ExternalDigitalSensorbutton(int t):state(OFF),temps(t){
+ExternalDigitalSensorbutton::ExternalDigitalSensorbutton(int t): Sensor(t),state(OFF){
 }
 
 void ExternalDigitalSensorbutton::run(){
