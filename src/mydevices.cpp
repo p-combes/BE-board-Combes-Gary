@@ -5,9 +5,15 @@ using namespace std;
 
 //Declaration compteur d'instance pour humidity sol
 int AnalogSensorHumiditySoil::cpt=0;
+
+//class Sensor
+Sensor::Sensor(int t):Device(),temps(t){}
+//class AnalogSensor
+AnalogSensor::AnalogSensor(int t):Sensor(t){
+    alea=1;
+}
 //classe AnalogSensorTemperature
-AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):Device(),val(t),temps(d){
-  alea=1;
+AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):AnalogSensor(d),val(t){
 }
 
 void AnalogSensorTemperature::run(){
@@ -49,9 +55,10 @@ void I2CActuatorScreen::run(){
     }
 }
 
+
+
 //class AnalogSensorLuminosity
-AnalogSensorLuminosity::AnalogSensorLuminosity(int t):Device(),val(luminosite_environnement),temps(t){
-    alea=1;
+AnalogSensorLuminosity::AnalogSensorLuminosity(int t):AnalogSensor(t),val(luminosite_environnement){
 }
 
 void AnalogSensorLuminosity::run(){
@@ -96,7 +103,7 @@ while(1){
 }
 //Classe ExternalDigitalSensorbutton
 
-ExternalDigitalSensorbutton::ExternalDigitalSensorbutton(int t):state(OFF),temps(t){
+ExternalDigitalSensorbutton::ExternalDigitalSensorbutton(int t): Sensor(t),state(OFF){
 }
 
 void ExternalDigitalSensorbutton::run(){
@@ -113,17 +120,13 @@ void ExternalDigitalSensorbutton::run(){
     }
 }
 //Classe AnalogSensorRadar
-AnalogSensorRadar::AnalogSensorRadar(int t):temps(t),distance(distance_arrosoir){
-    alea=1;
+AnalogSensorRadar::AnalogSensorRadar(int t):AnalogSensor(t),distance(distance_arrosoir){
 }
 
-//class AnalogSensorHumidity
-AnalogSensorHumidity::AnalogSensorHumidity(int t):Device(),temps(t){
-    alea=1;
-}
+
 
 //class AnalogSensorHumiditySoil
-AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t,int plante):AnalogSensorHumidity(t),val(luminosite_environnement){
+AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t,int plante):AnalogSensor(t),val(luminosite_environnement){
     alea=1;
     numeroPlante=plante;
     cpt++;
@@ -148,7 +151,7 @@ void AnalogSensorHumiditySoil::run(){
 
 //class AnalogSensorHumidityAir
 
-AnalogSensorHumidityAir::AnalogSensorHumidityAir(int t):AnalogSensorHumidity(t),val(luminosite_environnement){
+AnalogSensorHumidityAir::AnalogSensorHumidityAir(int t):AnalogSensor(t),val(humidite_air){
     alea=1;
 }
 void AnalogSensorHumidityAir::run(){
