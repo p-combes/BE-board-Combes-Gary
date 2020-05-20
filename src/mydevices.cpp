@@ -8,6 +8,8 @@ int AnalogSensorHumiditySoil::cpt=0;
 
 //class Sensor
 Sensor::Sensor(int t):Device(),temps(t){}
+//class Actuator
+Actuator::Actuator(int t):Device(),temps(t){}
 //class AnalogSensor
 AnalogSensor::AnalogSensor(int t):Sensor(t){
     alea=1;
@@ -26,7 +28,7 @@ void AnalogSensorTemperature::run(){
 }
 
 //classe DigitalActuatorLED
-DigitalActuatorLED::DigitalActuatorLED(int t):Device(),state(LOW),temps(t){
+DigitalActuatorLED::DigitalActuatorLED(int t):Actuator(t),state(LOW){
 }
 
 void DigitalActuatorLED::run(){
@@ -72,7 +74,7 @@ void AnalogSensorLuminosity::run(){
 }
 
 //class IntelligentDigitalActuatorLED
-IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Device(),state(LOW),temps(t){
+IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Actuator(t),state(LOW){
 }
 
 void IntelligentDigitalActuatorLED::run(){
@@ -221,7 +223,7 @@ void AnalogSensorRadar::run(){
 }
 
 
-AnalogActuatorServo::AnalogActuatorServo(int t):vitesse(0),temps(t){
+AnalogActuatorServo::AnalogActuatorServo(int t): Actuator(t),vitesse(0){
 }
 
 //classe AnalogActuatorServoRail

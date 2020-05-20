@@ -26,6 +26,14 @@ public :
     Sensor(int t);
 
 };
+
+class Actuator : public Device {
+protected :
+    int temps;
+public:
+    Actuator(int t);
+
+};
 class AnalogSensor : public Sensor{
 protected :
 
@@ -53,12 +61,11 @@ public:
 
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
-class DigitalActuatorLED: public Device {
+class DigitalActuatorLED: public Actuator {
 private:
   // etat de la LED
   int state;
-  // temps entre 2 affichage de l etat de la led
-  int temps;
+
 
 public:
     // initialisation du temps de rafraichiisement
@@ -95,12 +102,11 @@ public:
     virtual void run();
 };
 
-class IntelligentDigitalActuatorLED : public Device{
+class IntelligentDigitalActuatorLED : public Actuator{
 protected :
     //Etat de la LED
     int state;
-    //temps entre 2 affichages de l'�tat de la LED
-    int temps;
+
 public:
     //constructeur
     IntelligentDigitalActuatorLED(int t);
@@ -177,12 +183,11 @@ public:
     virtual void run();
 };
 
-class AnalogActuatorServo : public Device{
+class AnalogActuatorServo : public Actuator{
 protected:
     //Vitesse � laquelle l'arrosoir se deplace sur le rail (vitesse<0 => recule, vitesse >0 => avance)
     int vitesse;
-    //temps entre 2 affichages de l'�tat de la vitesse
-    int temps;
+
 public:
     //constructeur
     AnalogActuatorServo(int t);
