@@ -17,15 +17,39 @@ static int humidite_air=70 ;//mesure en % de l'humidit� dans l'air
 enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
 static double distance_arrosoir=0.0;
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
+
+class Sensor : public Device {
+protected:
+    //temps entre 2 affichages
+    int temps;
+public :
+    Sensor(int t);
+
+};
+
+class Actuator : public Device {
+protected :
+    int temps;
+public:
+    Actuator(int t);
+
+};
+class AnalogSensor : public Sensor{
+protected :
+
+    //fait osciller la valeur du capteur de 1
+    int alea;
+public:
+    //constructeur
+    AnalogSensor(int t);
+};
+
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
-class AnalogSensorTemperature: public Device {
+class AnalogSensorTemperature: public AnalogSensor {
 private:
-  // fait osciller la valeur du cpateur de 1
-  int alea;
   // valeur de temperature mesuree
   int val;
-  // temps entre 2 prises de valeurs
-  int temps;
+
 
 public:
   //constructeur ne pas oublier d'initialiser la classe mere
@@ -34,13 +58,14 @@ public:
   virtual void run();
 };
 
+
+
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
-class DigitalActuatorLED: public Device {
+class DigitalActuatorLED: public Actuator {
 private:
   // etat de la LED
   int state;
-  // temps entre 2 affichage de l etat de la led
-  int temps;
+
 
 public:
     // initialisation du temps de rafraichiisement
@@ -62,14 +87,14 @@ public:
   virtual void run();
 };
 
-class AnalogSensorLuminosity : public Device{
+
+
+
+class AnalogSensorLuminosity : public AnalogSensor{
 protected :
     //Valeur de luminosit� capt�e
     int val;
-    //temps entre 2 affichages de la luminosite
-    int temps;
-    //fait osciller la valeur du capteur de 1
-    int alea;
+
 public:
     //constructeur
     AnalogSensorLuminosity(int t);
@@ -77,12 +102,11 @@ public:
     virtual void run();
 };
 
-class IntelligentDigitalActuatorLED : public Device{
+class IntelligentDigitalActuatorLED : public Actuator{
 protected :
     //Etat de la LED
     int state;
-    //temps entre 2 affichages de l'�tat de la LED
-    int temps;
+
 public:
     //constructeur
     IntelligentDigitalActuatorLED(int t);
@@ -90,12 +114,11 @@ public:
     virtual void run();
 };
 
-class ExternalDigitalSensorbutton: public Device{
+class ExternalDigitalSensorbutton: public Sensor{
 protected :
     //Etat du bouton
     int state;
-    //temps de maj du bouton
-    int temps;
+
 public:
     //constructeur
     ExternalDigitalSensorbutton(int t);
@@ -104,18 +127,9 @@ public:
 };
 
 
-class AnalogSensorHumidity : public Device{
-protected :
-    //temps entre 2 affichages de la luminosite
-    int temps;
-    //fait osciller la valeur du capteur de 1
-    int alea;
-public:
-    //constructeur
-    AnalogSensorHumidity(int t);
-};
 
-class AnalogSensorHumiditySoil : public AnalogSensorHumidity{
+
+class AnalogSensorHumiditySoil : public AnalogSensor{
 protected :
     //Valeur d'humidite capt�e en V
     int val;
@@ -131,7 +145,7 @@ public:
 };
 
 
-class AnalogSensorHumidityAir : public AnalogSensorHumidity{
+class AnalogSensorHumidityAir : public AnalogSensor{
 protected :
     //Valeur d'humidite capt�e en %
     int val;
@@ -157,14 +171,11 @@ public:
   virtual void run();
 };
 
-class AnalogSensorRadar : public Device{
+class AnalogSensorRadar : public AnalogSensor{
 protected :
-     //temps entre 2 affichages de l'�tat de la valeur
-    int temps;
     //distance entre le radar et l'arrosoir => ou se situe l'arrosoir dans la rangee
     double distance;
-    //fait osciller la valeur du capteur de 1
-    int alea;
+
 public:
     //constructeur
     AnalogSensorRadar(int t);
@@ -172,12 +183,11 @@ public:
     virtual void run();
 };
 
-class AnalogActuatorServo : public Device{
+class AnalogActuatorServo : public Actuator{
 protected:
     //Vitesse � laquelle l'arrosoir se deplace sur le rail (vitesse<0 => recule, vitesse >0 => avance)
     int vitesse;
-    //temps entre 2 affichages de l'�tat de la vitesse
-    int temps;
+
 public:
     //constructeur
     AnalogActuatorServo(int t);
@@ -194,8 +204,6 @@ public:
 
 class AnalogActuatorServoInclinaison : public AnalogActuatorServo{
 protected :
-    //Permet a la fonction d'inclinaison de l'arrosoir de connaitre l'angle actuel
-    friend class Arrosoir;
     //angle d'inclinaison
     double angle;
 public :

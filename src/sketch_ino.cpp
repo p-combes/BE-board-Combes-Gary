@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include "core_simulation.h"
 #include "mydevices.h"
-#include "Arrosoir.cpp"
+#include "Arosoir.cpp"
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
