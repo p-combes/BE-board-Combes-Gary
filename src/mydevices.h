@@ -17,15 +17,26 @@ static int humidite_air=70 ;//mesure en % de l'humidit� dans l'air
 enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
 static double distance_arrosoir=0.0;
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
+
+
+
+class AnalogSensor : public Device{
+protected :
+    //temps entre 2 affichages de la luminosite
+    int temps;
+    //fait osciller la valeur du capteur de 1
+    int alea;
+public:
+    //constructeur
+    AnalogSensor(int t);
+};
+
 // exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
-class AnalogSensorTemperature: public Device {
+class AnalogSensorTemperature: public AnalogSensor {
 private:
-  // fait osciller la valeur du cpateur de 1
-  int alea;
   // valeur de temperature mesuree
   int val;
-  // temps entre 2 prises de valeurs
-  int temps;
+
 
 public:
   //constructeur ne pas oublier d'initialiser la classe mere
@@ -33,6 +44,8 @@ public:
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
+
+
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Device {
@@ -62,14 +75,14 @@ public:
   virtual void run();
 };
 
-class AnalogSensorLuminosity : public Device{
+
+
+
+class AnalogSensorLuminosity : public AnalogSensor{
 protected :
     //Valeur de luminosit� capt�e
     int val;
-    //temps entre 2 affichages de la luminosite
-    int temps;
-    //fait osciller la valeur du capteur de 1
-    int alea;
+
 public:
     //constructeur
     AnalogSensorLuminosity(int t);
@@ -104,18 +117,9 @@ public:
 };
 
 
-class AnalogSensorHumidity : public Device{
-protected :
-    //temps entre 2 affichages de la luminosite
-    int temps;
-    //fait osciller la valeur du capteur de 1
-    int alea;
-public:
-    //constructeur
-    AnalogSensorHumidity(int t);
-};
 
-class AnalogSensorHumiditySoil : public AnalogSensorHumidity{
+
+class AnalogSensorHumiditySoil : public AnalogSensor{
 protected :
     //Valeur d'humidite capt�e en V
     int val;
@@ -131,7 +135,7 @@ public:
 };
 
 
-class AnalogSensorHumidityAir : public AnalogSensorHumidity{
+class AnalogSensorHumidityAir : public AnalogSensor{
 protected :
     //Valeur d'humidite capt�e en %
     int val;
@@ -157,14 +161,11 @@ public:
   virtual void run();
 };
 
-class AnalogSensorRadar : public Device{
+class AnalogSensorRadar : public AnalogSensor{
 protected :
-     //temps entre 2 affichages de l'�tat de la valeur
-    int temps;
     //distance entre le radar et l'arrosoir => ou se situe l'arrosoir dans la rangee
     double distance;
-    //fait osciller la valeur du capteur de 1
-    int alea;
+
 public:
     //constructeur
     AnalogSensorRadar(int t);
