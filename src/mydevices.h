@@ -10,6 +10,7 @@
 #include <ctime>
 #include<map>
 #include "core_simulation.h"
+#include "environnement.h"
 
 //Varaiables globales pour la simulation de l'environnement
 static int luminosite_environnement=200;

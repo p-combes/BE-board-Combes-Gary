@@ -2,6 +2,7 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 #include "application_plante.h"
+#include "environnement.h"
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -23,7 +24,8 @@ void Board::setup(){
 // la boucle de controle arduino
 void Board::loop(){
 
-   CaracteristiquePlante Cactus (60,0,200,30,20,20000);
+    JourneePrintemps(heure, &printemps,Plantation);
+    CaracteristiquePlante Cactus (60,0,200,30,20,20000);
     cout<<"diagnostic"<<runDiagnosis(1,Cactus,this)<<endl;
    sleep(10);
 

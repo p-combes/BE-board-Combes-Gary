@@ -65,7 +65,7 @@ AnalogSensorLuminosity::AnalogSensorLuminosity(int t):AnalogSensor(t),val(lumino
 
 void AnalogSensorLuminosity::run(){
   while(1){
-    val=luminosite_environnement;
+    val=printemps.luminosite;
     alea=1-alea;
     if(ptrmem!=NULL)
       *ptrmem=val+alea;
@@ -158,7 +158,7 @@ AnalogSensorHumidityAir::AnalogSensorHumidityAir(int t):AnalogSensor(t),val(humi
 }
 void AnalogSensorHumidityAir::run(){
   while(1){
-    val=humidite_air;
+    val=printemps.humidite_air;
 
     alea=1-alea;
     if(ptrmem!=NULL)
