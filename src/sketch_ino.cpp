@@ -22,6 +22,12 @@ void Board::setup(){
 
 // la boucle de controle arduino
 void Board::loop(){
+
+   CaracteristiquePlante Cactus (60,0,200,30,20,20000);
+    cout<<"diagnostic"<<runDiagnosis(1,Cactus,this)<<endl;
+   sleep(10);
+
+/*
   char buf[100];
   int val;
   int lum;
@@ -98,7 +104,7 @@ void Board::loop(){
   bascule=1-bascule;
 
 
-
+*/
 }
 
 
