@@ -31,7 +31,7 @@
 #define PIN_HUM_AIR 10
 #define PIN_HUM_SOIL 11
 #define PIN_LUMINOSITE 12
-
+#define PIN_ANGULAR 14
 
 //Contraintes physiques
 #define ANGLE_MAX 45.0
