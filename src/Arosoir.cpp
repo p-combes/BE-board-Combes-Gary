@@ -1,7 +1,7 @@
 #include "Arosoir.h"
 
 //Constructeur
-Arrosoir::Arrosoir():state(Arrete){
+Arrosoir::Arrosoir():state(Arrete),estArrive(false),finArrosage(false){
 }
 
 //Methodes liees au deplacement
@@ -69,5 +69,42 @@ void Arrosoir::inclinerArrosoir(int arrosage,Board* arduino){
     else{
         arduino->digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
     }
+}
+//Methhode d'arrosage complet (deplacement + inclinaison)
+void Arrosoir::arroser(int numeroPlante, int humiditeVoulue, Board* arduino){
+double distVoulue; //distance souhaitee
+char buf[100];
+switch (numeroPlante){ //association numeroPlante//Distance souhaitee
+case 1:
+    distVoulue=DISTANCE_PLANTE_1;
+    break;
+case 2:
+    distVoulue=DISTANCE_PLANTE_2;
+    break;
+case 3:
+    distVoulue=DISTANCE_PLANTE_3;
+    break;
+}
+sprintf(buf,"Distance vue depuis ce point là : ****** %f",(distVoulue-(arduino->analogRead(PIN_RADAR))));
+arduino->Serial.println(buf);
+//Mise a jour des valeurs booleennes
+if (abs((int)(distVoulue-(arduino->analogRead(PIN_RADAR))))<=2){ //Mise a jour de est arrive
+    estArrive=true;
+}
+if (humiditeVoulue<=(arduino->analogRead(PIN_HUM_SOIL))){
+    finArrosage=true;
+}
+if (estArrive==false){
+    deplacerArrosoir(distVoulue,arduino); //si on est pas en face de la plante, on deplace l'arrosoir
+    inclinerArrosoir(PAS_ARROSAGE,arduino);
+}
+else{
+    if (finArrosage==false){
+        inclinerArrosoir(ARROSAGE,arduino); //si on est en face, si on a pas fini d'arroser (Humidite<HumiditeVoulue), on arrose
+    }
+    else{
+        inclinerArrosoir(PAS_ARROSAGE,arduino); //sinon on arrete
+    }
+}
 }
 

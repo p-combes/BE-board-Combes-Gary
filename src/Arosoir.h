@@ -8,12 +8,17 @@ class Arrosoir{
 protected :
     //Definit l'etat actuel de l'arrosoir (arrete, en deplacement ou en arrosage) => on ne peut pas arroser et se deplacer en meme temps
     EtatArrosoir state;
+    //Indique si l'arrosoir est arrive à la destination voulue ou non
+    bool estArrive;
+    //Indique si l'arrosoir a fini l'arrosage
+    bool finArrosage;
 public:
     //Constructeur
     Arrosoir();
     //methodes pour l'arrosage
     void deplacerArrosoir(double positionPlante, Board* arduino);
     void inclinerArrosoir(int arrosage, Board* arduino);
+    void arroser(int numeroPlante, int humiditeVoulue, Board* arduino);
 };
 
 
