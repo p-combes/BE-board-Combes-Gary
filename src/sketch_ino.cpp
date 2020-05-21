@@ -39,13 +39,21 @@ void Board::loop(){
   digitalWrite(PIN_SERVO_INCLINAISON,0);
 
   if((premierPassage==false)&&(analogRead(PIN_RADAR)<=9.0)){
+    //arros.inclinerArrosoir(PAS_ARROSAGE,this);
     arros.deplacerArrosoir(10.0,this);
   }
   if (analogRead(PIN_RADAR)>=9.0){
     premierPassage=true;
   }
   if (premierPassage){
-    arros.deplacerArrosoir(5.0,this);
+    if (analogRead(PIN_HUM_SOIL)<200){
+         arros.inclinerArrosoir(ARROSAGE,this);
+         Serial.println("Phase d'arrosage");
+    }
+    else{
+        arros.inclinerArrosoir(PAS_ARROSAGE,this);
+        Serial.println("Phase d'arret");
+    }
   }
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
