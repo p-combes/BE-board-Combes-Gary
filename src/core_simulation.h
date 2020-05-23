@@ -31,19 +31,33 @@
 #define PIN_HUM_AIR 10
 #define PIN_HUM_SOIL 11
 #define PIN_LUMINOSITE 12
+#define PIN_ANGULAR 14
 
-
-
+//Contraintes physiques
 #define ANGLE_MAX 45.0
 #define TAILLE_POTAGER 20.0
-#define VITESSE_ARROSOIR_DEPLACEMENT 40
-#define VITESSE_ARROSOIR_ARRET 0
-#define DISTANCE_PLANTE_1 10
-#define DISTANCE_PLANTE_2 15
-#define DISTANCE_PLANTE_3 20
 #define MAX_I2C_DEVICES 4
 #define I2C_BUFFER_SIZE 1024
 #define MAX_IO_PIN 20
+//Vitesse de déplacement de l'arrosoir
+#define VITESSE_ARROSOIR_AVANCE_LENT 20
+#define VITESSE_ARROSOIR_AVANCE_RAPIDE 40
+#define VITESSE_ARROSOIR_RECULE_LENT 50
+#define VITESSE_ARROSOIR_RECULE_RAPIDE 70
+#define VITESSE_ARROSOIR_ARRET 0
+#define VITESSE_INCLINAISON_AVANT 1
+#define VITESSE_INCLINAISON_ARRIERE 4
+#define VITESSE_INCLINAISON_OFF 0
+
+//INclinaison oou non de l'arrosoir
+#define ARROSAGE 1
+#define PAS_ARROSAGE 0
+
+//Distance des plantes
+#define DISTANCE_PLANTE_1 10
+#define DISTANCE_PLANTE_2 15
+#define DISTANCE_PLANTE_3 20
+
 #define OFF 0
 #define ON 1
 
@@ -135,7 +149,6 @@ public:
   Terminal Serial;
     // threads representant chaque senseur/actionneur sur le bus I2C
   thread *tabthreadbus[MAX_I2C_DEVICES];
-
 // simulation de la boucle de controle arduino
     void run();
   // accroachage d'un senseur/actionneur à une pin

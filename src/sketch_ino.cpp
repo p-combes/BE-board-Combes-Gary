@@ -1,7 +1,8 @@
 #include <unistd.h>
 #include "core_simulation.h"
 #include "mydevices.h"
-
+#include "Arosoir.cpp"
+static bool premierPassage=false;
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -18,29 +19,24 @@ void Board::setup(){
   pinMode(PIN_SERVO_INCLINAISON,OUTPUT);
   pinMode(PIN_RADAR,INPUT);
   pinMode(PIN_SERVO_ARROSOIR,OUTPUT);
+  pinMode(PIN_ANGULAR,INPUT);
 }
 
 // la boucle de controle arduino
 void Board::loop(){
   char buf[100];
+  Arrosoir arros;
   int val;
   int lum;
   int air;
   int sol;
   int bouton;
-  int dist;
+  double dist;
+  double angle;
   static int cpt=0;
   static int bascule=0;
   int i=0;
-  //Deplacement arrosoir jusqu'a position plante 1
-  if (analogRead(PIN_RADAR)<DISTANCE_PLANTE_1){
-     digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_DEPLACEMENT);
-      digitalWrite(PIN_SERVO_INCLINAISON,0);
-  }
-  else{
-     digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
-      digitalWrite(PIN_SERVO_INCLINAISON,1);
-  }
+  arros.arroser(1,220,this);
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
 
@@ -48,6 +44,7 @@ void Board::loop(){
     air =analogRead(PIN_HUM_AIR);
     sol=analogRead(PIN_HUM_SOIL);
     bouton=analogRead(PIN_BOUTON);
+    angle=analogRead(PIN_ANGULAR);
     sprintf(buf,"temperature %d",val);
     Serial.println(buf);
     //Lecture capteur de luminosite
@@ -61,10 +58,10 @@ void Board::loop(){
     Serial.println(buf);
     sprintf(buf,"Bouton en pos %d",bouton);
     Serial.println(buf);
-    //lecture distance
-     //Serial.println("Lecture de la distance");
     dist=analogRead(PIN_RADAR);
-    sprintf(buf,"Distance de l'arrosoir %d",dist);
+    sprintf(buf,"Distance de l'arrosoir %f",dist);
+    Serial.println(buf);
+    sprintf(buf,"angle de l'arrosoir %f",angle);
     Serial.println(buf);
    // if(cpt%5==0){
         // tous les 5 fois on affiche sur l ecran la temperature
@@ -91,8 +88,6 @@ void Board::loop(){
     digitalWrite(PIN_LED1,LOW);
   }
   bascule=1-bascule;
-
-
 
 }
 

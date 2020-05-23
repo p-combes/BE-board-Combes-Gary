@@ -16,6 +16,7 @@ static int luminosite_environnement=200;
 static int humidite_air=70 ;//mesure en % de l'humidit� dans l'air
 enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
 static double distance_arrosoir=0.0;
+static double angle_arrosoir=0.0;
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
 
 class Sensor : public Device {
@@ -203,12 +204,20 @@ public:
 };
 
 class AnalogActuatorServoInclinaison : public AnalogActuatorServo{
-protected :
-    //angle d'inclinaison
-    double angle;
 public :
     //constructeur
-    AnalogActuatorServoInclinaison(int t):AnalogActuatorServo(t),angle(0.0){}
+    AnalogActuatorServoInclinaison(int t):AnalogActuatorServo(t){}
+    //thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+
+class AnalogSensorAngular : public AnalogSensor{
+protected:
+    //valeur angle captee au niveau de l'arrosoir
+    double angle;
+public:
+    //constructeur
+    AnalogSensorAngular(int t);
     //thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };

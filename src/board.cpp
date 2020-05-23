@@ -18,6 +18,7 @@ int main(){
   AnalogSensorHumidityAir humAir(DELAY);
   AnalogSensorHumiditySoil humSol(DELAY,1);
   LCDScreen lcd(I2C_LCD);
+  AnalogSensorAngular angleMeasure(DELAY);
 
   // branchement des capteurs actionneurs
   esp8266.pin(PIN_TEMP,temperature);
@@ -32,6 +33,7 @@ int main(){
   esp8266.i2c(I2C_LCD,lcd);
   esp8266.pin(PIN_RADAR,radar);
   esp8266.pin(PIN_SERVO_ARROSOIR,servoRail);
+  esp8266.pin(PIN_ANGULAR,angleMeasure);
   // allumage de la carte
   esp8266.run();
   return 0;

@@ -230,6 +230,7 @@ AnalogActuatorServo::AnalogActuatorServo(int t): Actuator(t),vitesse(0){
 
 void AnalogActuatorServoRail::run(){
  int vitesse_old; //permet de dï¿½tecter un changement dans la vitesse
+ int vitesse_abs; //permet de gerer les vitesses negatives
  time_t date_debut; //date de changement de vitesse
  time_t date_fin; //date de changement de vitesse
     while(1){
@@ -237,14 +238,35 @@ void AnalogActuatorServoRail::run(){
             vitesse_old=vitesse;
             vitesse=*ptrmem;
         }
+        switch(vitesse){
+    case VITESSE_ARROSOIR_RECULE_LENT: //Gestion vitesses negatives (on ne peut pas ecrire de chiffre<0 sur les PIN
+        vitesse=-20;
+        break;
+    case VITESSE_ARROSOIR_RECULE_RAPIDE:
+        vitesse=-40;
+        break;
+        }
+        vitesse_abs=abs(vitesse);//Gestion si vitesse negative
         if ((distance_arrosoir < TAILLE_POTAGER)){ //tant qu'on est pas au bout du potager, on continue a avancer
-            if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'arrosoir
+            if ((vitesse_old==0)&&(vitesse_abs!=vitesse_old)){//Detecte le demarrage de l'arrosoir
                 time(&date_debut);
             }
             time(&date_fin);
-            if (difftime(date_fin,date_debut)>0.2){ //Actualisation de la distance de l'arrosoir toutes les 0.2 secondes
-                distance_arrosoir+=difftime(date_fin,date_debut)*(double)vitesse*0.01;
-                time(&date_debut);
+            //Si on est a l'arret, il ne faut plus actualiser distance arrosoir et remettre les dates de fin et debut a 0
+            if ((vitesse_old==0)&&(vitesse_abs==vitesse_old)){
+                distance_arrosoir=distance_arrosoir;
+                date_debut=0;
+                date_fin=0;
+            }
+            else{ //Si on est pas a l'arret, on actualise la distance toute les 0.2 secondes
+                if (difftime(date_fin,date_debut)>0.2){ //Actualisation de la distance de l'arrosoir toutes les 0.2 secondes
+                    if (vitesse>0)
+                        distance_arrosoir+=difftime(date_fin,date_debut)*(double)vitesse_abs*0.01; //cas vitesse >0
+                    else
+                        distance_arrosoir-=difftime(date_fin,date_debut)*(double)vitesse_abs*0.01; //cas vitesse <0
+
+                    time(&date_debut);
+                }
             }
         }
          sleep(temps);
@@ -256,33 +278,62 @@ void AnalogActuatorServoInclinaison::run(){
  int vitesse_old; //permet de dï¿½tecter un changement dans la vitesse
  time_t date_debut; //date de changement de vitesse
  time_t date_fin; //date de changement de vitesse
+ int vitesse_abs; //Si vitesse <0
     while(1){
         if(ptrmem!=NULL){
             vitesse_old=vitesse;
             vitesse=*ptrmem;
         }
-        if ((angle< ANGLE_MAX)){ //tant qu'on est pas a l'angle max, on peut continuer a incliner l'arrosoir
-            if ((vitesse_old==0)&&(vitesse!=vitesse_old)){//Detecte le demarrage de l'inclinaison
+        if (vitesse==VITESSE_INCLINAISON_ARRIERE){vitesse=-1;} //Gestion vitesse<0
+        vitesse_abs=abs(vitesse);//Gestion si vitesse negative
+        if ((angle_arrosoir< ANGLE_MAX)||((angle_arrosoir>=ANGLE_MAX)&&(vitesse<0))){ //tant qu'on est pas a l'angle max, on peut continuer a incliner l'arrosoir
+            if ((vitesse_old==0)&&(vitesse_abs!=vitesse_old)){//Detecte le demarrage de l'inclinaison
                 time(&date_debut);
             }
             time(&date_fin);
-            if (difftime(date_fin,date_debut)>0.2){ //Actualisation de l'angle
-                angle+=difftime(date_fin,date_debut)*(double)vitesse*5;
-                time(&date_debut);
+             //Si on est a l'arret, il ne faut plus actualiser angle arrosoir et remettre les dates de fin et debut a 0
+            if ((vitesse_old==0)&&(vitesse_abs==vitesse_old)){
+                angle_arrosoir=angle_arrosoir;
+                date_debut=0;
+                date_fin=0;
+            }
+            else{
+                if (difftime(date_fin,date_debut)>0.2){ //Actualisation de l'angle si on est pas a l'arret
+                    if (vitesse>0)
+                        angle_arrosoir+=difftime(date_fin,date_debut)*(double)vitesse_abs*5;
+                    else
+                        angle_arrosoir-=difftime(date_fin,date_debut)*(double)vitesse_abs*5;
+                    time(&date_debut);
+                }
             }
         }
+        //Empeche l'angle d'etre <0
+        if (angle_arrosoir<0.0){angle_arrosoir=0.0;}
 
          //Lien entre angle et humidité du sol au pied de la plante
         if ((distance_arrosoir>(DISTANCE_PLANTE_1-5))&&(distance_arrosoir<(DISTANCE_PLANTE_1+5))){
-             Plantation[1]+=(10*angle)/45;
+             Plantation[1]+=(10*angle_arrosoir)/45;
         }
         if ((distance_arrosoir>(DISTANCE_PLANTE_2-5))&&(distance_arrosoir<(DISTANCE_PLANTE_2+5))){
-             Plantation[2]+=(10*angle)/45;
+             Plantation[2]+=(10*angle_arrosoir)/45;
         }
         if ((distance_arrosoir>(DISTANCE_PLANTE_3-5))&&(distance_arrosoir<(DISTANCE_PLANTE_3+5))){
-             Plantation[3]+=(10*angle)/45;
+             Plantation[3]+=(10*angle_arrosoir)/45;
         }
          sleep(temps);
     }
 }
 
+//classe AnalogSensorAngular
+AnalogSensorAngular::AnalogSensorAngular(int t):AnalogSensor(t),angle(angle_arrosoir){
+}
+
+void AnalogSensorAngular::run(){
+    while(1){
+    angle=angle_arrosoir;
+    alea=1-alea;
+    if(ptrmem!=NULL)
+      *ptrmem=angle+alea;
+    sleep(temps);
+  }
+}
