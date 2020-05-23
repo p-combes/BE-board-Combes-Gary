@@ -78,7 +78,7 @@ void displayParameters(ParametrePlante plante, Board * arduino){
     }
 }
 
-int runDiagnosis(int numeroPlante, ParametrePlante modele, Board* arduino){
+int runDiagnosis(int numeroPlante, CaracteristiquePlante modele, Board* arduino){
 
     int hum_air=measureAirHumidity(arduino);
 
@@ -93,29 +93,36 @@ int runDiagnosis(int numeroPlante, ParametrePlante modele, Board* arduino){
     ParametrePlante parametre (numeroPlante,hum_sol,hum_air,temp,lum);
     displayParameters(parametre,arduino);
 
-    if (hum_sol < modele.humidite_sol-MARGE_HUM_SOL) {
-        if (hum_air <modele.humidite_air-MARGE_HUM_AIR){
-            act = NE_RIEN_FAIRE; //le sol n'est pas assez humide mais il va pleuvoir donc on attend
-            if (lum<modele.luminosite -MARGE_LUM) {
-                    act = ALLUMER_LAMPE; //il n'y a pas assez de luminosite
-            } else if (lum>modele.luminosite+MARGE_LUM) {
-                    act = ETEINDRE;
+
+    if (parametre.temperature>modele.max_temp || parametre.temperature<modele.min_temp || parametre.humidite_sol>HUMIDITE_SOL_MAX) //La plante est morte
+    {
+        cout<<"La plante est morte"<<endl;
+    }
+    else {
+        if (hum_sol < modele.humidite_sol-MARGE_HUM_SOL) {
+            if (hum_air <modele.humidite_air-MARGE_HUM_AIR){
+                act = NE_RIEN_FAIRE; //le sol n'est pas assez humide mais il va pleuvoir donc on attend
+                if (lum<modele.luminosite -MARGE_LUM) {
+                        act = ALLUMER_LAMPE; //il n'y a pas assez de luminosite
+                } else if (lum>modele.luminosite+MARGE_LUM) {
+                        act = ETEINDRE;
+                }
             }
+            else{
+                act=ARROSER; //le sol n'est pas assez humide et il ne pleut pas
+                if (lum<modele.luminosite -MARGE_LUM) {
+                        act = ALLUMER_ARROSER;
+                } else if (lum>modele.luminosite+MARGE_LUM) {
+                        act = ETEINDRE_ARROSER;
+                }
+            }
+        } else {
+        if (lum<modele.luminosite -MARGE_LUM) {
+                        act = ALLUMER_LAMPE;
+                } else if (lum>modele.luminosite+MARGE_LUM) {
+                        act = ETEINDRE;
+                }
         }
-        else{
-            act=ARROSER; //le sol n'est pas assez humide et il ne pleut pas
-            if (lum<modele.luminosite -MARGE_LUM) {
-                    act = ALLUMER_ARROSER;
-            } else if (lum>modele.luminosite+MARGE_LUM) {
-                    act = ETEINDRE_ARROSER;
-            }
-        }
-    } else {
-    if (lum<modele.luminosite -MARGE_LUM) {
-                    act = ALLUMER_LAMPE;
-            } else if (lum>modele.luminosite+MARGE_LUM) {
-                    act = ETEINDRE;
-            }
     }
     return act;
 }

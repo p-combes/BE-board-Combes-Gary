@@ -40,4 +40,4 @@ int measureLuminosity(Board* arduino);
 int measureTemperature(Board* arduino);
 
 void displayParameters (ParametrePlante plante);
-int runDiagnosis (int numeroPlante, ParametrePlante modele, Board* arduino);
+int runDiagnosis (int numeroPlante, CaracteristiquePlante modele, Board* arduino);

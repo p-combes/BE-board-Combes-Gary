@@ -26,6 +26,7 @@ void Board::loop(){
 
     JourneePrintemps();
     CaracteristiquePlante Cactus (60,0,200,30,20,10000);
+
     cout<<"diagnostic"<<runDiagnosis(1,Cactus,this)<<endl;
    sleep(5);
 
