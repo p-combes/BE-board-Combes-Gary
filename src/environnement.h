@@ -24,8 +24,8 @@ public :
     void gestionEnvironnement (map <int,int> Plantation);
 
 };
-void JourneePrintemps (int hour,Environnement* medioambiente, map<int,int>Plantation);
-static int heure=0;
+
+
 static Environnement printemps(20,50,10000);
 
 #endif

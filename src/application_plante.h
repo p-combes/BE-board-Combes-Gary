@@ -39,4 +39,5 @@ int measureAirHumidity(Board* arduino);
 int measureLuminosity(Board* arduino);
 int measureTemperature(Board* arduino);
 
+void displayParameters (ParametrePlante plante);
 int runDiagnosis (int numeroPlante, ParametrePlante modele, Board* arduino);

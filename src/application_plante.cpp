@@ -61,19 +61,37 @@ int measureTemperature(Board* arduino){
     return arduino->analogRead(PIN_TEMP);
 }
 
+void displayParameters(ParametrePlante plante, Board * arduino){
+    char buf[100];
+    sprintf(buf,"temperature %d",plante.temperature);
+    arduino->Serial.println(buf);
+    sprintf(buf,"luminosite %d",plante.luminosite);
+    arduino->Serial.println(buf);
+    sprintf(buf,"humidite dans l'air %d",plante.humidite_air);
+    arduino->Serial.println(buf);
+    sprintf(buf,"humidite dans le sol %d",plante.humidite_sol);
+    arduino->Serial.println(buf);
+    if (plante.humidite_air>100-1 && plante.humidite_air <100+2) {
+       sprintf(buf,"Il pleut ! ");
+    arduino->Serial.println(buf);
+
+    }
+}
+
 int runDiagnosis(int numeroPlante, ParametrePlante modele, Board* arduino){
 
     int hum_air=measureAirHumidity(arduino);
-    cout<<"hum_air"<<hum_air<<endl;
+
     int hum_sol=measureSoilHumidity(numeroPlante,arduino);
-    cout<<"hum_sol"<<hum_sol<<endl;
+
     int temp = measureTemperature(arduino);
-    cout<<"temp"<<temp<<endl;
+
     int lum = measureLuminosity(arduino);
-    cout<<"lum"<<lum<<endl;
+
     action act= NE_RIEN_FAIRE;
 
     ParametrePlante parametre (numeroPlante,hum_sol,hum_air,temp,lum);
+    displayParameters(parametre,arduino);
 
     if (hum_sol < modele.humidite_sol-MARGE_HUM_SOL) {
         if (hum_air <modele.humidite_air-MARGE_HUM_AIR){

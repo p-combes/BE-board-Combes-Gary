@@ -37,8 +37,6 @@
 		<Unit filename="../src/board.cpp" />
 		<Unit filename="../src/core_simulation.cpp" />
 		<Unit filename="../src/core_simulation.h" />
-		<Unit filename="../src/environnement.cpp" />
-		<Unit filename="../src/environnement.h" />
 		<Unit filename="../src/mydevices.cpp" />
 		<Unit filename="../src/mydevices.h" />
 		<Unit filename="../src/sketch_ino.cpp" />
