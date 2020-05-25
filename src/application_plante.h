@@ -29,8 +29,8 @@ public :
     int humidite_air;
     int temperature;
     int luminosite;
-
-    ParametrePlante(int num,int hum_sol,int hum_air,int temp, int lum);
+    char* name;
+    ParametrePlante(char* nom,int num,int hum_sol,int hum_air,int temp, int lum);
     ParametrePlante(int hum_sol,int hum_air,int temp, int lum);
 };
 
@@ -41,7 +41,7 @@ public :
     int priority; //Gestion de la priorite d'arrosage de la plante
     //Constructeur pour une plante avec priorité maximum
     CaracteristiquePlante(int prio);
-    CaracteristiquePlante (int num,int maximum, int minimum,int hum_sol,int hum_air,int temp, int lum);
+    CaracteristiquePlante (char* nom,int num,int maximum, int minimum,int hum_sol,int hum_air,int temp, int lum);
     //Surcharge de l'operateur =
     CaracteristiquePlante & operator =(const CaracteristiquePlante & plantes);
     //Definition de la priorité

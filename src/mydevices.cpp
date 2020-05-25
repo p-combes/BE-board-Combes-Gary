@@ -20,9 +20,9 @@ void JourneePrintemps(int avancee){
             probabilite = rand() % 100; // il faudra initialiser la seed pour avoir une meilleure proba
             if (probabilite>PROBA_PLUIE){ //il pleut
                 humidite_air=100;
-                Plantation[1]+=50;
-                Plantation[2]+=50;
-                Plantation[3]+=50;
+                Plantation[1]+=10;
+                Plantation[2]+=10;
+                Plantation[3]+=10;
             }else{
                 humidite_air = 70;
                 Plantation[1]-=10;
@@ -171,7 +171,7 @@ void AnalogSensorHumiditySoil::run(){
 
     if (cpt==1){
             Plantation[1]=100;
-            Plantation[2]=150;
+            Plantation[2]=100;
             Plantation[3]=200;
             cpt=2; //Empeche une autre initialisation
     }

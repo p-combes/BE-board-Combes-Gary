@@ -3,7 +3,7 @@
 using namespace std;
 
 
-ParametrePlante::ParametrePlante(int num,int hum_sol,int hum_air,int temp, int lum){
+ParametrePlante::ParametrePlante(char* nom, int num,int hum_sol,int hum_air,int temp, int lum){
 
     if (num>MAX_PLANTE) throw EXCEPTION_NB_PLANTE;
     numero = num;
@@ -11,6 +11,7 @@ ParametrePlante::ParametrePlante(int num,int hum_sol,int hum_air,int temp, int l
     humidite_sol =hum_sol;
     temperature=temp;
     luminosite=lum;
+    name=nom;
 
 }
 
@@ -23,12 +24,12 @@ ParametrePlante::ParametrePlante(int hum_sol,int hum_air,int temp, int lum){
 
 }
 
-CaracteristiquePlante::CaracteristiquePlante(int num,int maximum,int minimum,int hum_sol,int hum_air,int temp, int lum):ParametrePlante(num,hum_sol,hum_air,temp,lum){
+CaracteristiquePlante::CaracteristiquePlante(char* nom,int num,int maximum,int minimum,int hum_sol,int hum_air,int temp, int lum):ParametrePlante(nom,num,hum_sol,hum_air,temp,lum){
     max_temp = maximum;
     min_temp = minimum;
     priority=0;
 }
-CaracteristiquePlante::CaracteristiquePlante(int prio):ParametrePlante(0,0,0,0,0){
+CaracteristiquePlante::CaracteristiquePlante(int prio):ParametrePlante("",0,0,0,0,0){
     max_temp = 0;
     min_temp=0;
     priority=prio;
@@ -129,7 +130,9 @@ int measureDistance(Board* arduino){
 
 void displayParameters(ParametrePlante plante, Board * arduino){
     char buf[100];
-    sprintf(buf,"temperature %d",plante.temperature);
+    sprintf(buf,"***************PARAMETRES DE %s ***************",plante.name);
+    arduino->Serial.println(buf);
+    sprintf(buf,"temperature %d",plante.temperature,plante.name);
     arduino->Serial.println(buf);
     sprintf(buf,"luminosite %d",plante.luminosite);
     arduino->Serial.println(buf);
@@ -156,7 +159,7 @@ int runDiagnosis(CaracteristiquePlante modele, Board* arduino){
 
     action act= NE_RIEN_FAIRE;
 
-    ParametrePlante parametre (modele.numero,hum_sol,hum_air,temp,lum);
+    ParametrePlante parametre (modele.name,modele.numero,hum_sol,hum_air,temp,lum);
     displayParameters(parametre,arduino);
 
 
@@ -261,7 +264,6 @@ char buf[100];
 
 void applyDecision(set<CaracteristiquePlante> Decisions,Arrosoir arros,CaracteristiquePlante plante1,CaracteristiquePlante plante2, Board* arduino){
 if (Decisions.empty()){ //Si la liste des decisions est vide => on ne bouge pas de là ooù l'on est
-        cout<<"coucou"<<endl;
         arduino->digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
         arros.inclinerArrosoir(PAS_ARROSAGE,arduino);
     }
@@ -274,7 +276,6 @@ set <CaracteristiquePlante>::iterator it;
         MaxPriority=(*it);
     }
     }
-    cout<<"Numero MAX "<<MaxPriority.numero<<endl;
     //On applique alors l'arrosage a la plante la plus prioritaire
     if (MaxPriority==plante1){
             arros.arroser(plante1.numero,plante1.humidite_sol,arduino);
@@ -286,6 +287,5 @@ set <CaracteristiquePlante>::iterator it;
         throw EXCEPTION_NAME_PLANT;
     }
 }
-        cout<<"taille de decision : "<<Decisions.size()<<endl;
 }
 

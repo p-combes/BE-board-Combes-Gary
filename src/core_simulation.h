@@ -47,7 +47,7 @@
 //Contraintes physiques
 #define MAX_PLANTE 3
 #define ANGLE_MAX 45.0
-#define TAILLE_POTAGER 20.0
+#define TAILLE_POTAGER 30.0
 #define MAX_I2C_DEVICES 4
 #define I2C_BUFFER_SIZE 1024
 #define MAX_IO_PIN 20
@@ -67,8 +67,8 @@
 
 //Distance des plantes
 #define DISTANCE_PLANTE_1 10
-#define DISTANCE_PLANTE_2 15
-#define DISTANCE_PLANTE_3 20
+#define DISTANCE_PLANTE_2 20
+#define DISTANCE_PLANTE_3 30
 //Exceptions
 #define EXCEPTION_NB_PLANTE 5
 //Etats des LED et boutons
