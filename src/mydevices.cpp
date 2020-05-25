@@ -3,38 +3,42 @@
 
 using namespace std;
 
-void JourneePrintemps(){
-    int probabilite;
-    cout<<"Il est :"<<heure<<" h"<<endl;
-    if (heure>7 && heure<21){//c'est la journée
-        luminosite_environnement = 20000;
-        temperature_environnement = 16;
+void JourneePrintemps(int avancee){
 
+        int probabilite;
+        cout<<"Il est :"<<heure<<" h"<<endl;
+        if (heure>7 && heure<21){//c'est la journée
+            luminosite_environnement = 20000;
+            temperature_environnement = 16;
+
+        }
+        else{ //c'est la nuit
+            luminosite_environnement = 30;
+            temperature_environnement= 10;
+        }
+        if (avancee==NORMALE){
+            probabilite = rand() % 100; // il faudra initialiser la seed pour avoir une meilleure proba
+            if (probabilite>PROBA_PLUIE){ //il pleut
+                humidite_air=100;
+                Plantation[1]+=50;
+                Plantation[2]+=50;
+                Plantation[3]+=50;
+            }else{
+                humidite_air = 70;
+                Plantation[1]-=10;
+                Plantation[2]-=10;
+                Plantation[3]-=10;
+            }
+            heure=heure+1;
+            if (heure>23) {heure =0;}
     }
-    else{ //c'est la nuit
-        luminosite_environnement = 30;
-        temperature_environnement= 10;
-    }
-    probabilite = rand() % 100; // il faudra initialiser la seed pour avoir une meilleure proba
-    if (probabilite>PROBA_PLUIE){ //il pleut
-        humidite_air=100;
-        Plantation[1]+=50;
-        Plantation[2]+=50;
-        Plantation[3]+=50;
-    }else{
-        humidite_air = 70;
-        Plantation[1]-=10;
-        Plantation[2]-=10;
-        Plantation[3]-=10;
-    }
-    heure=heure+1;
-    if (heure>23) {heure =0;}
 }
 
 
 //Declaration compteur d'instance pour humidity sol
 int AnalogSensorHumiditySoil::cpt=0;
-
+//Declaration compteur d'instance pour luminosity sol
+int AnalogSensorLuminosity::cpt=0;
 //class Sensor
 Sensor::Sensor(int t):Device(),temps(t){}
 //class Actuator
@@ -90,12 +94,19 @@ void I2CActuatorScreen::run(){
 
 
 //class AnalogSensorLuminosity
-AnalogSensorLuminosity::AnalogSensorLuminosity(int t):AnalogSensor(t),val(luminosite_environnement){
+AnalogSensorLuminosity::AnalogSensorLuminosity(int t,int plante):AnalogSensor(t),val(luminosite_environnement),numeroPlante(plante){
 }
 
 void AnalogSensorLuminosity::run(){
   while(1){
-    val=luminosite_environnement;
+    //Initialisation de la plantation si première instanciation
+    if (cpt==1){
+            Luminosite[1]=luminosite_environnement;
+            Luminosite[2]=luminosite_environnement;
+            Luminosite[3]=luminosite_environnement;
+            cpt=2; //Empeche une autre initialisation
+    }
+    val=Luminosite[numeroPlante];
     alea=1-alea;
     if(ptrmem!=NULL)
       *ptrmem=val+alea;
@@ -103,36 +114,26 @@ void AnalogSensorLuminosity::run(){
   }
 }
 
-//class IntelligentDigitalActuatorLED
-IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t):Actuator(t),state(LOW){
+//class DigitalActuatorUVLamp
+DigitalActuatorUVLamp::DigitalActuatorUVLamp(int t,int plante):Actuator(t),state(LOW),numeroPlante(plante){
 }
 
-void IntelligentDigitalActuatorLED::run(){
-    bool estPasse_low = false;
-    bool estPasse_high=false;
+void DigitalActuatorUVLamp::run(){
 while(1){
     if(ptrmem!=NULL)
       state=*ptrmem;
     if (state==LOW){
-        estPasse_high=false;
-        if (estPasse_low==false){
-                luminosite_environnement -=50;
-                estPasse_low=true;
-        }
-        cout << "((((eteint_LED2))))\n";
-
+        Luminosite[numeroPlante] = luminosite_environnement;
+        cout << "Lampe numero : "<<numeroPlante<<" est eteinte"<<endl;
     }
     else{
-        estPasse_low=false;
-        if(estPasse_high==false){
-           luminosite_environnement += 50;
-           estPasse_high=true;
-        }
-        cout << "((((allume_LED2))))\n";
+        Luminosite[numeroPlante] = luminosite_environnement + 50;
+        cout << "Lampe numero : "<<numeroPlante<<" est allumee"<<endl;
     }
     sleep(temps);
     }
 }
+
 //Classe ExternalDigitalSensorbutton
 
 ExternalDigitalSensorbutton::ExternalDigitalSensorbutton(int t): Sensor(t),state(OFF){

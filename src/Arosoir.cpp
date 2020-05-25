@@ -74,24 +74,28 @@ void Arrosoir::inclinerArrosoir(int arrosage,Board* arduino){
 void Arrosoir::arroser(int numeroPlante, int humiditeVoulue, Board* arduino){
 double distVoulue; //distance souhaitee
 char buf[100];
+int pinToRead;
 switch (numeroPlante){ //association numeroPlante//Distance souhaitee
 case 1:
     distVoulue=DISTANCE_PLANTE_1;
+    pinToRead=PIN_HUM_SOIL_1;
     break;
 case 2:
     distVoulue=DISTANCE_PLANTE_2;
+    pinToRead=PIN_HUM_SOIL_2;
     break;
 case 3:
     distVoulue=DISTANCE_PLANTE_3;
+    pinToRead=PIN_HUM_SOIL_3;
     break;
+default:
+   throw EXCEPTION_NB_PLANTE;
 }
-sprintf(buf,"Distance vue depuis ce point là : ****** %f",(distVoulue-(arduino->analogRead(PIN_RADAR))));
-arduino->Serial.println(buf);
 //Mise a jour des valeurs booleennes
 if (abs((int)(distVoulue-(arduino->analogRead(PIN_RADAR))))<=2){ //Mise a jour de est arrive
     estArrive=true;
 }
-if (humiditeVoulue<=(arduino->analogRead(PIN_HUM_SOIL))){
+if (humiditeVoulue<=(arduino->analogRead(pinToRead))){
     finArrosage=true;
 }
 if (estArrive==false){

@@ -1,9 +1,9 @@
 #include <unistd.h>
 #include "core_simulation.h"
 #include "mydevices.h"
-#include "Arosoir.cpp"
-static bool premierPassage=false;
+#include "Arosoir.h"
 #include "application_plante.h"
+#include "lampeUV.cpp"
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
@@ -12,9 +12,12 @@ void Board::setup(){
 
 // on fixe les pin en entree et en sorite en fonction des capteurs/actionneurs mis sur la carte
   pinMode(PIN_TEMP,INPUT);
-  pinMode(PIN_LED1,OUTPUT);
-  pinMode(PIN_LUMINOSITE,INPUT);
-  pinMode(PIN_LED2,OUTPUT);
+  pinMode(PIN_UV1,OUTPUT);
+  pinMode(PIN_UV2,OUTPUT);
+  pinMode(PIN_UV3,OUTPUT);
+  pinMode(PIN_LUMINOSITE_1,INPUT);
+  pinMode(PIN_LUMINOSITE_2,INPUT);
+  pinMode(PIN_LUMINOSITE_3,INPUT);
   pinMode(PIN_BOUTON,INPUT);
   pinMode(PIN_HUM_AIR,INPUT);
   pinMode(PIN_HUM_SOIL_1,INPUT);
@@ -32,7 +35,7 @@ void Board::loop(){
     char buf[100];
     int planteADiagnostiquer = 1;
     int ecranCorrespondant;
-
+    Arrosoir arros;
     switch (planteADiagnostiquer){
         case 1:
             ecranCorrespondant = I2C_SCREEN_1;
@@ -41,31 +44,52 @@ void Board::loop(){
         case 3 :
             ecranCorrespondant = I2C_SCREEN_3;
     }
-
-    JourneePrintemps();
     CaracteristiquePlante Cactus (60,0,100,30,20,10000);
     diag = runDiagnosis(planteADiagnostiquer,Cactus,this);
+    sprintf(buf,"distance de l'arrosoir %d",measureDistance(this));
+    Serial.println(buf);
     switch (diag){
     case NE_RIEN_FAIRE :
+        digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
+        digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
+        JourneePrintemps(NORMALE);
         cout<<"Ne rien faire"<<endl;
         break;
 
     case ALLUMER_LAMPE :
+        digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
+        digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
+        JourneePrintemps(NORMALE);
         cout<<"allumer la lampe"<<endl;
-        //alumer la lampe
+        AllumerLampe(1,this);
         break;
     case ARROSER :
+        JourneePrintemps(RALENTIE);
+        arros.arroser(1,Cactus.humidite_sol,this);
         cout<<"Arroser"<<endl;
         break;
     case ALLUMER_ARROSER :
+        JourneePrintemps(RALENTIE);
+        arros.arroser(1,Cactus.humidite_sol,this);
         cout<<"allumer et arroser"<<endl;
         break;
     case ETEINDRE_ARROSER :
+        JourneePrintemps(RALENTIE);
+        arros.arroser(1,Cactus.humidite_sol,this);
         cout<<"eteindre et arroser"<<endl;
     case MORTE:
+        digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
+        digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
+        JourneePrintemps(NORMALE);
         sprintf(buf,"La plante est morte");
         bus.write(ecranCorrespondant,buf,100);
-
+        break;
+    case ETEINDRE:
+        digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
+        digitalWrite(PIN_SERVO_INCLINAISON,VITESSE_INCLINAISON_OFF);
+        JourneePrintemps(NORMALE);
+        EteindreLampe(1,this);
+        cout<<"Eteindre la lampe"<<endl;
         break;
     default :
         cout<<"diagnostic invalide"<<endl;

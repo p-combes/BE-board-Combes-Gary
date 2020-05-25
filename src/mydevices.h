@@ -22,9 +22,10 @@ static int temperature_environnement = 25;
 static double distance_arrosoir=0.0;
 static double angle_arrosoir=0.0;
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
+static map<int,int> Luminosite; //Map associant a chaque plante la luminosite percue
 
 
-void JourneePrintemps ();
+void JourneePrintemps (int avancee);
 
 
 class Sensor : public Device {
@@ -103,22 +104,27 @@ class AnalogSensorLuminosity : public AnalogSensor{
 protected :
     //Valeur de luminosit� capt�e
     int val;
+    //Plante associee au capteur de luminosite
+    int numeroPlante;
+     //Variable statique indiquant le nombre de capteurs cree
+    static int cpt;
 
 public:
     //constructeur
-    AnalogSensorLuminosity(int t);
+    AnalogSensorLuminosity(int t,int plante);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
 
-class IntelligentDigitalActuatorLED : public Actuator{
+class DigitalActuatorUVLamp : public Actuator{
 protected :
     //Etat de la LED
     int state;
-
+    //plante associee a la lampe à UV
+    int numeroPlante;
 public:
     //constructeur
-    IntelligentDigitalActuatorLED(int t);
+    DigitalActuatorUVLamp(int t,int plante);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
@@ -144,7 +150,7 @@ protected :
     int val;
       //Numero associant le senseur à une plante
     int numeroPlante;
-    //Variable statique indiquant le nombre de plante cree
+    //Variable statique indiquant le nombre de capteur cree
     static int cpt;
 public:
     //constructeur

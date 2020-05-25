@@ -9,7 +9,7 @@
 #include "core_simulation.h"
 #include "mydevices.h"
 
-#define EXCEPTION_NB_PLANTE 5
+
 #define EXCEPTION_DIAG 6
 #define MARGE_HUM_SOL 20
 #define MARGE_HUM_AIR 15
@@ -40,6 +40,8 @@ int measureSoilHumidity (int numeroPlante, Board* arduino);
 int measureAirHumidity(Board* arduino);
 int measureLuminosity(Board* arduino);
 int measureTemperature(Board* arduino);
+int measureAngle(Board * arduino);
+int measureDistance(Board* arduino);
 
 void displayParameters (ParametrePlante plante);
 int runDiagnosis (int numeroPlante, CaracteristiquePlante modele, Board* arduino);

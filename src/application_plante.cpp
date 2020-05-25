@@ -53,12 +53,36 @@ int measureAirHumidity(Board* arduino){
     return arduino->analogRead(PIN_HUM_AIR);
 }
 
-int measureLuminosity(Board* arduino){
-    return arduino->analogRead(PIN_LUMINOSITE);
+int measureLuminosity(int numeroPlante, Board* arduino){
+
+    int luminosity;
+    int pinToRead;
+    switch (numeroPlante) {
+        case 1:
+            pinToRead=PIN_LUMINOSITE_1;
+            break;
+        case 2:
+            pinToRead=PIN_LUMINOSITE_2;
+            break;
+        case 3:
+            pinToRead=PIN_LUMINOSITE_3;
+        default :
+            throw EXCEPTION_NB_PLANTE;
+    }
+    luminosity = arduino->analogRead(pinToRead);
+    return luminosity;
 }
 
 int measureTemperature(Board* arduino){
     return arduino->analogRead(PIN_TEMP);
+}
+
+int measureAngle(Board* arduino){
+    return arduino->analogRead(PIN_ANGULAR);
+}
+
+int measureDistance(Board* arduino){
+    return arduino->analogRead(PIN_RADAR);
 }
 
 void displayParameters(ParametrePlante plante, Board * arduino){
@@ -86,7 +110,7 @@ int runDiagnosis(int numeroPlante, CaracteristiquePlante modele, Board* arduino)
 
     int temp = measureTemperature(arduino);
 
-    int lum = measureLuminosity(arduino);
+    int lum = measureLuminosity(numeroPlante,arduino);
 
     action act= NE_RIEN_FAIRE;
 
