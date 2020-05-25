@@ -96,7 +96,7 @@ int runDiagnosis(int numeroPlante, CaracteristiquePlante modele, Board* arduino)
 
     if (parametre.temperature>modele.max_temp || parametre.temperature<modele.min_temp || parametre.humidite_sol>HUMIDITE_SOL_MAX) //La plante est morte
     {
-        cout<<"La plante est morte"<<endl;
+        act=MORTE;
     }
     else {
         if (hum_sol < modele.humidite_sol-MARGE_HUM_SOL) {

@@ -16,6 +16,8 @@ void Board::setup(){
   pinMode(PIN_BOUTON,INPUT);
   pinMode(PIN_HUM_AIR,INPUT);
   pinMode(PIN_HUM_SOIL_1,INPUT);
+  pinMode(PIN_HUM_SOIL_2,INPUT);
+  pinMode(PIN_HUM_SOIL_3,INPUT);
   pinMode(PIN_SERVO_INCLINAISON,OUTPUT);
   pinMode(PIN_RADAR,INPUT);
   pinMode(PIN_SERVO_ARROSOIR,OUTPUT);
@@ -23,11 +25,50 @@ void Board::setup(){
 
 // la boucle de controle arduino
 void Board::loop(){
+    int diag;
+    char buf[100];
+    int planteADiagnostiquer = 1;
+    int ecranCorrespondant;
+
+    switch (planteADiagnostiquer){
+        case 1:
+            ecranCorrespondant = I2C_SCREEN_1;
+        case 2:
+            ecranCorrespondant = I2C_SCREEN_2;
+        case 3 :
+            ecranCorrespondant = I2C_SCREEN_3;
+    }
 
     JourneePrintemps();
-    CaracteristiquePlante Cactus (60,0,200,30,20,10000);
+    CaracteristiquePlante Cactus (60,0,100,30,20,10000);
+    diag = runDiagnosis(planteADiagnostiquer,Cactus,this);
+    switch (diag){
+    case NE_RIEN_FAIRE :
+        cout<<"Ne rien faire"<<endl;
+        break;
 
-    cout<<"diagnostic"<<runDiagnosis(1,Cactus,this)<<endl;
+    case ALLUMER_LAMPE :
+        cout<<"allumer la lampe"<<endl;
+        //alumer la lampe
+        break;
+    case ARROSER :
+        cout<<"Arroser"<<endl;
+        break;
+    case ALLUMER_ARROSER :
+        cout<<"allumer et arroser"<<endl;
+        break;
+    case ETEINDRE_ARROSER :
+        cout<<"eteindre et arroser"<<endl;
+    case MORTE:
+        sprintf(buf,"La plante est morte");
+        bus.write(ecranCorrespondant,buf,100);
+
+        break;
+    default :
+        cout<<"diagnostic invalide"<<endl;
+        throw EXCEPTION_DIAG;
+
+    }
    sleep(5);
 
 /*

@@ -10,14 +10,15 @@
 #include <ctime>
 #include<map>
 #include "core_simulation.h"
-
+#define PROBA_PLUIE 70
 
 //Varaiables globales pour la simulation de l'environnement
+//static int cpt=0;
 static int heure=0;
 static int luminosite_environnement=200;
 static int humidite_air=70 ;//mesure en % de l'humidit� dans l'air
 static int temperature_environnement = 25;
-enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
+
 static double distance_arrosoir=0.0;
 
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
