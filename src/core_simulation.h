@@ -34,7 +34,7 @@
 #define PIN_HUM_SOIL_3 13
 #define PIN_LUMINOSITE 14
 #define PIN_LED1 16
-#define PIN_ANGULAR 14
+#define PIN_ANGULAR 17
 
 //Contraintes physiques
 #define MAX_PLANTE 3
