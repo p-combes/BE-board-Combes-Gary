@@ -8,6 +8,7 @@
 #include <fstream>
 #include <time.h>
 #include <ctime>
+#include <set>
 #include<map>
 #include "core_simulation.h"
 #define PROBA_PLUIE 70

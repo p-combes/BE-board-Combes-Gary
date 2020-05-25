@@ -19,6 +19,8 @@ public:
     void deplacerArrosoir(double positionPlante, Board* arduino);
     void inclinerArrosoir(int arrosage, Board* arduino);
     void arroser(int numeroPlante, int humiditeVoulue, Board* arduino);
+    //Methode retournant true si on est en arrosage, false sinon
+    bool detecterEnArrosage(Board* arduino);
 };
 
 

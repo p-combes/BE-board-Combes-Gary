@@ -23,10 +23,52 @@ ParametrePlante::ParametrePlante(int hum_sol,int hum_air,int temp, int lum){
 
 }
 
-CaracteristiquePlante::CaracteristiquePlante(int maximum,int minimum,int hum_sol,int hum_air,int temp, int lum):ParametrePlante(hum_sol,hum_air,temp,lum){
+CaracteristiquePlante::CaracteristiquePlante(int num,int maximum,int minimum,int hum_sol,int hum_air,int temp, int lum):ParametrePlante(num,hum_sol,hum_air,temp,lum){
     max_temp = maximum;
     min_temp = minimum;
+    priority=0;
+}
+CaracteristiquePlante::CaracteristiquePlante(int prio):ParametrePlante(0,0,0,0,0){
+    max_temp = 0;
+    min_temp=0;
+    priority=prio;
+}
+//Surcharge de =
+CaracteristiquePlante& CaracteristiquePlante::operator =(const CaracteristiquePlante & plantes){
+    this->humidite_sol=plantes.humidite_sol;
+    this->humidite_air=plantes.humidite_air;
+    this->luminosite=plantes.luminosite;
+    this->max_temp=plantes.max_temp;
+    this->min_temp=plantes.min_temp;
+    this->numero=plantes.numero;
+    this->temperature=plantes.temperature;
+    this->priority=plantes.priority;
+    return (*this);
+}
+//Surcharge des operateurs de comparaison
+bool operator == (const CaracteristiquePlante  &plantes1, const CaracteristiquePlante  &plantes2){
+    return(plantes1.numero==plantes2.numero); //le numero est propre a la plante
+}
+//Inferieur signifie un etat de sante moins bon, donc une priorite d'arroser plus grande
+bool operator < (const CaracteristiquePlante  &plantes1, const CaracteristiquePlante  &plantes2){
+    return((plantes1.priority<plantes2.priority)&&(plantes1.numero!=plantes2.numero));
+}
 
+bool operator <= (const CaracteristiquePlante  &plantes1, const CaracteristiquePlante  &plantes2){
+    return((plantes1.priority<plantes2.priority)||(plantes1.numero==plantes2.numero));
+}
+
+bool operator != (const CaracteristiquePlante  &plantes1, const CaracteristiquePlante  &plantes2){
+    return !(plantes1.numero==plantes2.numero);
+}
+//Definition de la priorité
+void CaracteristiquePlante::SetPriority(Board* arduino){
+    if (measureSoilHumidity(numero,arduino)>humidite_sol){ //Si on a une humidite sup a l'humidite voule, pas besoin d'arroser
+        priority=0;
+    }
+    else{
+        priority=humidite_sol-measureSoilHumidity(numero,arduino); //Plus la difference entre l'humidite reelle et l'humidite voulue est grande, plus on a besoin d'arroser
+    }
 }
 int measureSoilHumidity (int numeroPlante, Board* arduino){
 
@@ -102,19 +144,19 @@ void displayParameters(ParametrePlante plante, Board * arduino){
     }
 }
 
-int runDiagnosis(int numeroPlante, CaracteristiquePlante modele, Board* arduino){
+int runDiagnosis(CaracteristiquePlante modele, Board* arduino){
 
     int hum_air=measureAirHumidity(arduino);
 
-    int hum_sol=measureSoilHumidity(numeroPlante,arduino);
+    int hum_sol=measureSoilHumidity(modele.numero,arduino);
 
     int temp = measureTemperature(arduino);
 
-    int lum = measureLuminosity(numeroPlante,arduino);
+    int lum = measureLuminosity(modele.numero,arduino);
 
     action act= NE_RIEN_FAIRE;
 
-    ParametrePlante parametre (numeroPlante,hum_sol,hum_air,temp,lum);
+    ParametrePlante parametre (modele.numero,hum_sol,hum_air,temp,lum);
     displayParameters(parametre,arduino);
 
 
@@ -150,3 +192,100 @@ int runDiagnosis(int numeroPlante, CaracteristiquePlante modele, Board* arduino)
     }
     return act;
 }
+void takeDecision(int diagnostique, CaracteristiquePlante plantes, Arrosoir arros,Board* arduino,set<CaracteristiquePlante> &Decisions){
+char buf[100];
+ switch (diagnostique){
+    case NE_RIEN_FAIRE :
+        if (arros.detecterEnArrosage(arduino)==true){
+            JourneePrintemps(RALENTIE);
+        }
+        else{
+            JourneePrintemps(NORMALE);
+            Decisions.erase(plantes);
+        }
+        cout<<"Ne rien faire"<<endl;
+        break;
+
+    case ALLUMER_LAMPE :
+         if (arros.detecterEnArrosage(arduino)==true){ //Si on est tjrs en train d'arroser => On regarde tjrs au ralenti
+            JourneePrintemps(RALENTIE);
+        }
+        else{ //Sinon, on peut revenir a la normale et erase la decision
+            JourneePrintemps(NORMALE);
+            Decisions.erase(plantes);
+        }
+        cout<<"allumer la lampe"<<endl;
+        AllumerLampe(plantes.numero,arduino);
+        break;
+    case ARROSER :
+        Decisions.insert(plantes);
+        JourneePrintemps(RALENTIE);
+        cout<<"Arroser"<<endl;
+        break;
+    case ALLUMER_ARROSER :
+        Decisions.insert(plantes);
+        JourneePrintemps(RALENTIE);
+        cout<<"allumer et arroser"<<endl;
+        break;
+    case ETEINDRE_ARROSER :
+        Decisions.insert(plantes);
+        JourneePrintemps(RALENTIE);
+        cout<<"eteindre et arroser"<<endl;
+    case MORTE:
+         if (arros.detecterEnArrosage(arduino)==true){
+            JourneePrintemps(RALENTIE);
+        }
+        else{
+            JourneePrintemps(NORMALE);
+            Decisions.erase(plantes);
+        }
+        sprintf(buf,"La plante est morte");
+        arduino->bus.write(I2C_SCREEN_1,buf,100);
+        break;
+    case ETEINDRE:
+         if (arros.detecterEnArrosage(arduino)==true){
+            JourneePrintemps(RALENTIE);
+        }
+        else{
+            JourneePrintemps(NORMALE);
+            Decisions.erase(plantes);
+        }
+        EteindreLampe(plantes.numero,arduino);
+        cout<<"Eteindre la lampe"<<endl;
+        break;
+    default :
+        cout<<"diagnostic invalide"<<endl;
+        throw EXCEPTION_DIAG;
+    }
+}
+
+void applyDecision(set<CaracteristiquePlante> Decisions,Arrosoir arros,CaracteristiquePlante plante1,CaracteristiquePlante plante2, Board* arduino){
+if (Decisions.empty()){ //Si la liste des decisions est vide => on ne bouge pas de là ooù l'on est
+        cout<<"coucou"<<endl;
+        arduino->digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
+        arros.inclinerArrosoir(PAS_ARROSAGE,arduino);
+    }
+else{
+//Sinon recherche dans la liste des decisions a prendre, la plante la plus prioritaire
+CaracteristiquePlante MaxPriority(INT_MAX);
+set <CaracteristiquePlante>::iterator it;
+    for(it=Decisions.begin();it!=Decisions.end();it++){
+    if ((*it)<MaxPriority){
+        MaxPriority=(*it);
+    }
+    }
+    cout<<"Numero MAX "<<MaxPriority.numero<<endl;
+    //On applique alors l'arrosage a la plante la plus prioritaire
+    if (MaxPriority==plante1){
+            arros.arroser(plante1.numero,plante1.humidite_sol,arduino);
+        }
+    else if (MaxPriority==plante2){
+            arros.arroser(plante2.numero,plante2.humidite_sol,arduino);
+        }
+    else{ //si ça ne correspond pas a une plante, on leve une exception
+        throw EXCEPTION_NAME_PLANT;
+    }
+}
+        cout<<"taille de decision : "<<Decisions.size()<<endl;
+}
+

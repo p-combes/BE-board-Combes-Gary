@@ -112,3 +112,7 @@ else{
 }
 }
 
+bool Arrosoir::detecterEnArrosage(Board* arduino){
+    return ((arduino->analogRead(PIN_ANGULAR))>1);
+}
+
