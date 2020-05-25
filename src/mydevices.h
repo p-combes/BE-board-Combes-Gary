@@ -10,14 +10,22 @@
 #include <ctime>
 #include<map>
 #include "core_simulation.h"
+#define PROBA_PLUIE 70
 
 //Varaiables globales pour la simulation de l'environnement
+//static int cpt=0;
+static int heure=0;
 static int luminosite_environnement=200;
 static int humidite_air=70 ;//mesure en % de l'humidit� dans l'air
-enum etatSante {EXCELLENT, BON, DESSECHEE, NOYEE,MORTE};
+static int temperature_environnement = 25;
+
 static double distance_arrosoir=0.0;
 static double angle_arrosoir=0.0;
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
+
+
+void JourneePrintemps ();
+
 
 class Sensor : public Device {
 protected:
@@ -54,7 +62,7 @@ private:
 
 public:
   //constructeur ne pas oublier d'initialiser la classe mere
-  AnalogSensorTemperature(int d,int  t);
+  AnalogSensorTemperature(int d);
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };

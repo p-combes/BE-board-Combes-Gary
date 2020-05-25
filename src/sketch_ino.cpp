@@ -3,6 +3,8 @@
 #include "mydevices.h"
 #include "Arosoir.cpp"
 static bool premierPassage=false;
+#include "application_plante.h"
+
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -15,7 +17,9 @@ void Board::setup(){
   pinMode(PIN_LED2,OUTPUT);
   pinMode(PIN_BOUTON,INPUT);
   pinMode(PIN_HUM_AIR,INPUT);
-  pinMode(PIN_HUM_SOIL,INPUT);
+  pinMode(PIN_HUM_SOIL_1,INPUT);
+  pinMode(PIN_HUM_SOIL_2,INPUT);
+  pinMode(PIN_HUM_SOIL_3,INPUT);
   pinMode(PIN_SERVO_INCLINAISON,OUTPUT);
   pinMode(PIN_RADAR,INPUT);
   pinMode(PIN_SERVO_ARROSOIR,OUTPUT);
@@ -24,6 +28,53 @@ void Board::setup(){
 
 // la boucle de controle arduino
 void Board::loop(){
+    int diag;
+    char buf[100];
+    int planteADiagnostiquer = 1;
+    int ecranCorrespondant;
+
+    switch (planteADiagnostiquer){
+        case 1:
+            ecranCorrespondant = I2C_SCREEN_1;
+        case 2:
+            ecranCorrespondant = I2C_SCREEN_2;
+        case 3 :
+            ecranCorrespondant = I2C_SCREEN_3;
+    }
+
+    JourneePrintemps();
+    CaracteristiquePlante Cactus (60,0,100,30,20,10000);
+    diag = runDiagnosis(planteADiagnostiquer,Cactus,this);
+    switch (diag){
+    case NE_RIEN_FAIRE :
+        cout<<"Ne rien faire"<<endl;
+        break;
+
+    case ALLUMER_LAMPE :
+        cout<<"allumer la lampe"<<endl;
+        //alumer la lampe
+        break;
+    case ARROSER :
+        cout<<"Arroser"<<endl;
+        break;
+    case ALLUMER_ARROSER :
+        cout<<"allumer et arroser"<<endl;
+        break;
+    case ETEINDRE_ARROSER :
+        cout<<"eteindre et arroser"<<endl;
+    case MORTE:
+        sprintf(buf,"La plante est morte");
+        bus.write(ecranCorrespondant,buf,100);
+
+        break;
+    default :
+        cout<<"diagnostic invalide"<<endl;
+        throw EXCEPTION_DIAG;
+
+    }
+   sleep(5);
+
+/*
   char buf[100];
   Arrosoir arros;
   int val;
@@ -40,24 +91,33 @@ void Board::loop(){
   for(i=0;i<10;i++){
     // lecture sur la pin 1 : capteur de temperature
 
-    val=analogRead(PIN_TEMP);
     air =analogRead(PIN_HUM_AIR);
     sol=analogRead(PIN_HUM_SOIL);
     bouton=analogRead(PIN_BOUTON);
     angle=analogRead(PIN_ANGULAR);
+    val=analogRead(PIN_TEMP);
     sprintf(buf,"temperature %d",val);
     Serial.println(buf);
-    //Lecture capteur de luminosite
-    //Serial.println("Lecture de la luminosite");
-    lum=analogRead(PIN_LUMINOSITE);
+
+
+    lum=measureLuminosity(this);
      sprintf(buf,"luminosite %d",lum);
     Serial.println(buf);
+
+    air = measureAirHumidity(this);
     sprintf(buf,"humidite air %d",air);
     Serial.println(buf);
+
+    sol = measureSoilHumidity(1,this);
     sprintf(buf,"humidite sol %d",sol);
     Serial.println(buf);
+
+    bouton=analogRead(PIN_BOUTON);
     sprintf(buf,"Bouton en pos %d",bouton);
     Serial.println(buf);
+
+    //lecture distance
+     //Serial.println("Lecture de la distance");
     dist=analogRead(PIN_RADAR);
     sprintf(buf,"Distance de l'arrosoir %f",dist);
     Serial.println(buf);
@@ -89,6 +149,8 @@ void Board::loop(){
   }
   bascule=1-bascule;
 
+
+*/
 }
 
 

@@ -19,9 +19,9 @@
 #define HIGH 1
 #define LOW 0
 //Liste des PIN
-#define PIN_LED1 0
-#define I2C_SCREEN 1
-#define I2C_LCD 2
+#define I2C_SCREEN_1 0
+#define I2C_SCREEN_2 1
+#define I2C_SCREEN_3 2
 #define PIN_LED2 3
 #define PIN_BOUTON 4
 #define PIN_RADAR 5
@@ -29,11 +29,15 @@
 #define PIN_SERVO_ARROSOIR 8
 #define PIN_TEMP 9
 #define PIN_HUM_AIR 10
-#define PIN_HUM_SOIL 11
-#define PIN_LUMINOSITE 12
+#define PIN_HUM_SOIL_1 11
+#define PIN_HUM_SOIL_2 12
+#define PIN_HUM_SOIL_3 13
+#define PIN_LUMINOSITE 14
+#define PIN_LED1 16
 #define PIN_ANGULAR 14
 
 //Contraintes physiques
+#define MAX_PLANTE 3
 #define ANGLE_MAX 45.0
 #define TAILLE_POTAGER 20.0
 #define MAX_I2C_DEVICES 4

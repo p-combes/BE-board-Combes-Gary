@@ -3,6 +3,35 @@
 
 using namespace std;
 
+void JourneePrintemps(){
+    int probabilite;
+    cout<<"Il est :"<<heure<<" h"<<endl;
+    if (heure>7 && heure<21){//c'est la journée
+        luminosite_environnement = 20000;
+        temperature_environnement = 16;
+
+    }
+    else{ //c'est la nuit
+        luminosite_environnement = 30;
+        temperature_environnement= 10;
+    }
+    probabilite = rand() % 100; // il faudra initialiser la seed pour avoir une meilleure proba
+    if (probabilite>PROBA_PLUIE){ //il pleut
+        humidite_air=100;
+        Plantation[1]+=50;
+        Plantation[2]+=50;
+        Plantation[3]+=50;
+    }else{
+        humidite_air = 70;
+        Plantation[1]-=10;
+        Plantation[2]-=10;
+        Plantation[3]-=10;
+    }
+    heure=heure+1;
+    if (heure>23) {heure =0;}
+}
+
+
 //Declaration compteur d'instance pour humidity sol
 int AnalogSensorHumiditySoil::cpt=0;
 
@@ -15,11 +44,12 @@ AnalogSensor::AnalogSensor(int t):Sensor(t){
     alea=1;
 }
 //classe AnalogSensorTemperature
-AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):AnalogSensor(d),val(t){
+AnalogSensorTemperature::AnalogSensorTemperature(int d):AnalogSensor(d){
 }
 
 void AnalogSensorTemperature::run(){
   while(1){
+    val=temperature_environnement;
     alea=1-alea;
     if(ptrmem!=NULL)
       *ptrmem=val+alea;
@@ -131,18 +161,20 @@ AnalogSensorRadar::AnalogSensorRadar(int t):AnalogSensor(t),distance(distance_ar
 AnalogSensorHumiditySoil::AnalogSensorHumiditySoil(int t,int plante):AnalogSensor(t),val(luminosite_environnement){
     alea=1;
     numeroPlante=plante;
-    cpt++;
+    cpt=1;
 }
 
 void AnalogSensorHumiditySoil::run(){
   while(1){
         //Initialisation de la plantation si première instanciation
+
     if (cpt==1){
             Plantation[1]=100;
             Plantation[2]=150;
             Plantation[3]=200;
             cpt=2; //Empeche une autre initialisation
     }
+
     val=Plantation[numeroPlante];
     alea=1-alea;
     if(ptrmem!=NULL)
