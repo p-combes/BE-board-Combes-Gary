@@ -129,11 +129,10 @@ while(1){
       state=*ptrmem;
     if (state==LOW){
         Luminosite[numeroPlante] = luminosite_environnement;
-        cout << "Lampe numero : "<<numeroPlante<<" est eteinte"<<endl;
     }
     else{
         Luminosite[numeroPlante] = luminosite_environnement + 50;
-        cout << "Lampe numero : "<<numeroPlante<<" est allumee"<<endl;
+        cout<<"Lampe "<<numeroPlante<<" allumee"<<endl;
     }
     sleep(temps);
     }
@@ -216,35 +215,6 @@ void LCDScreen::run(){
     if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
       Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
     cout << "---screen LCD :"<< buf << endl;
-       /* switch (etatSante)
-        {
-        case EXCELLENT :
-            cout<<"*******LCD************"<<endl;
-            cout << "La plante numero"<<numeroPlante<<" est en parfaite sante\n\n";
-            cout<<"******************"<<endl;
-            break;
-        case BON :
-            cout<<"*******LCD************"<<endl;
-            cout << "La plante numero"<<numeroPlante<<" est en bonne sante\n\n";
-            cout<<"******************"<<endl;
-            break;
-        case DESSECHEE:
-            cout<<"*******LCD************"<<endl;
-            cout << "La plante numero"<<numeroPlante<<" est en dessechee\n\n";
-            cout<<"******************"<<endl;
-            break;
-        case NOYEE:
-            cout<<"*******LCD************"<<endl;
-            cout << "La plante numero"<<numeroPlante<<" est en train de se noyer\n\n";
-            break;
-        case MORTE:
-            cout<<"*******LCD************"<<endl;
-            cout << "La plante numero"<<numeroPlante<<" est malheureusement morte\n\n";
-            cout<<"******************"<<endl;
-            break;
-        default:
-                break;
-        }*/
     }
     sleep(1);
     }

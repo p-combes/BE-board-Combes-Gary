@@ -48,7 +48,7 @@ void Board::loop(){
     }
     //Definition des caracteristiques propres a chaque plante
     CaracteristiquePlante Cactus ("cactus",1,60,0,100,30,20,10000);
-    CaracteristiquePlante Tulipe("tulipe",2,40,-4,300,30,30,1000);
+    CaracteristiquePlante Tulipe("tulipe",2,40,-4,300,30,30,10000);
     //Diagnostic de chaque plante => Quelle action mener?
     diagCactus = runDiagnosis(Cactus,this);
     diagTulipe = runDiagnosis(Tulipe,this);
@@ -59,6 +59,7 @@ void Board::loop(){
     takeDecision(diagCactus,Cactus,arros,this,Decisions, ecranCorrespondant);
     takeDecision(diagTulipe,Tulipe,arros,this,Decisions, ecranCorrespondant);
     //Affichage de l'etat de l'arrosoir (mesure avec radar et servo angulaire)
+    Serial.println("***************PARAMETRES DE L ARROSOIR ***************");
     sprintf(buf,"distance de l'arrosoir %d",measureDistance(this));
     Serial.println(buf);
     sprintf(buf,"angle de l'arrosoir %d",measureAngle(this));
@@ -66,7 +67,7 @@ void Board::loop(){
     //Gestion de la coordination des decisions
     applyDecision(Decisions,arros,Cactus,Tulipe,this);
 
-   sleep(5);
+   sleep(DELAY);
 }
 
 
