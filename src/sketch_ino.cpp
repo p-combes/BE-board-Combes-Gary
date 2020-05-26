@@ -56,8 +56,8 @@ void Board::loop(){
     Cactus.SetPriority(this);
     Tulipe.SetPriority(this);
     //On met a jour la queue des decisions prises
-    takeDecision(diagCactus,Cactus,arros,this,Decisions);
-    takeDecision(diagTulipe,Tulipe,arros,this,Decisions);
+    takeDecision(diagCactus,Cactus,arros,this,Decisions, ecranCorrespondant);
+    takeDecision(diagTulipe,Tulipe,arros,this,Decisions, ecranCorrespondant);
     //Affichage de l'etat de l'arrosoir (mesure avec radar et servo angulaire)
     sprintf(buf,"distance de l'arrosoir %d",measureDistance(this));
     Serial.println(buf);

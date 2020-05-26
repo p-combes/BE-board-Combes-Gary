@@ -195,77 +195,63 @@ int runDiagnosis(CaracteristiquePlante modele, Board* arduino){
     }
     return act;
 }
-void takeDecision(int diagnostique, CaracteristiquePlante plantes, Arrosoir arros,Board* arduino,set<CaracteristiquePlante> &Decisions){
+void takeDecision(int diagnostique, CaracteristiquePlante plantes, Arrosoir arros,Board* arduino,set<CaracteristiquePlante> &Decisions,int screen){
 char buf[100];
  switch (diagnostique){
     case NE_RIEN_FAIRE :
         if (arros.detecterEnArrosage(arduino)==true){
-            JourneePrintemps(RALENTIE);
         }
         else{
-            JourneePrintemps(NORMALE);
             Decisions.erase(plantes);
         }
-        cout<<"Ne rien faire"<<endl;
         break;
 
     case ALLUMER_LAMPE :
          if (arros.detecterEnArrosage(arduino)==true){ //Si on est tjrs en train d'arroser => On regarde tjrs au ralenti
-            JourneePrintemps(RALENTIE);
         }
         else{ //Sinon, on peut revenir a la normale et erase la decision
-            JourneePrintemps(NORMALE);
             Decisions.erase(plantes);
         }
-        cout<<"allumer la lampe"<<endl;
         AllumerLampe(plantes.numero,arduino);
         break;
     case ARROSER :
         Decisions.insert(plantes);
-        JourneePrintemps(RALENTIE);
-        cout<<"Arroser"<<endl;
         break;
     case ALLUMER_ARROSER :
         Decisions.insert(plantes);
-        JourneePrintemps(RALENTIE);
-        cout<<"allumer et arroser"<<endl;
+        AllumerLampe(plantes.numero,arduino);
         break;
     case ETEINDRE_ARROSER :
         Decisions.insert(plantes);
-        JourneePrintemps(RALENTIE);
-        cout<<"eteindre et arroser"<<endl;
+        EteindreLampe(plantes.numero,arduino);
     case MORTE:
          if (arros.detecterEnArrosage(arduino)==true){
-            JourneePrintemps(RALENTIE);
         }
         else{
-            JourneePrintemps(NORMALE);
             Decisions.erase(plantes);
         }
-        sprintf(buf,"La plante est morte");
-        arduino->bus.write(I2C_SCREEN_1,buf,100);
+        sprintf(buf,"%s est morte",plantes.name);
+        arduino->bus.write(screen,buf,100);
         break;
     case ETEINDRE:
          if (arros.detecterEnArrosage(arduino)==true){
-            JourneePrintemps(RALENTIE);
         }
         else{
-            JourneePrintemps(NORMALE);
             Decisions.erase(plantes);
         }
         EteindreLampe(plantes.numero,arduino);
-        cout<<"Eteindre la lampe"<<endl;
         break;
     default :
-        cout<<"diagnostic invalide"<<endl;
         throw EXCEPTION_DIAG;
     }
 }
 
 void applyDecision(set<CaracteristiquePlante> Decisions,Arrosoir arros,CaracteristiquePlante plante1,CaracteristiquePlante plante2, Board* arduino){
 if (Decisions.empty()){ //Si la liste des decisions est vide => on ne bouge pas de là ooù l'on est
+        JourneePrintemps(NORMALE);
         arduino->digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
         arros.inclinerArrosoir(PAS_ARROSAGE,arduino);
+        cout<<"Je n'arrose personne"<<endl;
     }
 else{
 //Sinon recherche dans la liste des decisions a prendre, la plante la plus prioritaire
@@ -278,10 +264,14 @@ set <CaracteristiquePlante>::iterator it;
     }
     //On applique alors l'arrosage a la plante la plus prioritaire
     if (MaxPriority==plante1){
-            arros.arroser(plante1.numero,plante1.humidite_sol,arduino);
+            JourneePrintemps(RALENTIE);
+            arros.arroser(plante1.numero,plante1.humidite_sol+150,arduino); //On arrose plus que la limite
+            cout<<"Je choisis d'arroser "<<plante1.name<<endl;
         }
     else if (MaxPriority==plante2){
-            arros.arroser(plante2.numero,plante2.humidite_sol,arduino);
+            JourneePrintemps(RALENTIE);
+            arros.arroser(plante2.numero,plante2.humidite_sol+150,arduino);
+            cout<<"Je choisis d'arroser "<<plante2.name<<endl;
         }
     else{ //si ça ne correspond pas a une plante, on leve une exception
         throw EXCEPTION_NAME_PLANT;

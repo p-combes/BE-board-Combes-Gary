@@ -32,7 +32,22 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="../src/Arosoir.cpp" />
+		<Unit filename="../src/Arosoir.h" />
+		<Unit filename="../src/application_plante.cpp" />
+		<Unit filename="../src/application_plante.h" />
+		<Unit filename="../src/board.cpp" />
+		<Unit filename="../src/core_simulation.cpp" />
+		<Unit filename="../src/core_simulation.h" />
+		<Unit filename="../src/lampeUV.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="../src/lampeUV.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="../src/mydevices.cpp" />
+		<Unit filename="../src/mydevices.h" />
+		<Unit filename="../src/sketch_ino.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

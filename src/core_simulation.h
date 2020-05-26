@@ -66,9 +66,9 @@
 #define PAS_ARROSAGE 0
 
 //Distance des plantes
-#define DISTANCE_PLANTE_1 10
-#define DISTANCE_PLANTE_2 20
-#define DISTANCE_PLANTE_3 30
+#define DISTANCE_PLANTE_1 5
+#define DISTANCE_PLANTE_2 15
+#define DISTANCE_PLANTE_3 25
 //Exceptions
 #define EXCEPTION_NB_PLANTE 5
 //Etats des LED et boutons

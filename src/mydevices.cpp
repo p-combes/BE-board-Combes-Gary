@@ -20,14 +20,19 @@ void JourneePrintemps(int avancee){
             probabilite = rand() % 100; // il faudra initialiser la seed pour avoir une meilleure proba
             if (probabilite>PROBA_PLUIE){ //il pleut
                 humidite_air=100;
-                Plantation[1]+=10;
-                Plantation[2]+=10;
-                Plantation[3]+=10;
+                Plantation[1]+=1;
+                Plantation[2]+=1;
+                Plantation[3]+=1;
             }else{
                 humidite_air = 70;
-                Plantation[1]-=10;
-                Plantation[2]-=10;
-                Plantation[3]-=10;
+                for(int i=1;i<4;i++){
+                    if ((Plantation[i]-=10)<=0){
+                        Plantation[i]=0;
+                    }
+                    else{
+                        Plantation[i]-=10;
+                    }
+                }
             }
             heure=heure+1;
             if (heure>23) {heure =0;}

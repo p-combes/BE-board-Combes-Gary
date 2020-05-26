@@ -62,5 +62,5 @@ int measureDistance(Board* arduino);
 
 void displayParameters (ParametrePlante plante);
 int runDiagnosis (CaracteristiquePlante modele, Board* arduino); //Evalue les actions a mener
-void takeDecision(int diagnostique, CaracteristiquePlante plantes,Arrosoir arros, Board* arduino,set<CaracteristiquePlante> &Decisions);//Met en relation l'action a mener avec les actuators a actionner
+void takeDecision(int diagnostique, CaracteristiquePlante plantes,Arrosoir arros, Board* arduino,set<CaracteristiquePlante> &Decisions, int screen);//Met en relation l'action a mener avec les actuators a actionner
 void applyDecision(set<CaracteristiquePlante> Decisions,Arrosoir arros,CaracteristiquePlante plante1,CaracteristiquePlante plante2, Board* arduino); //Gere la coordination des differentes actions a mener
