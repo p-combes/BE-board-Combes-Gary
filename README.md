@@ -10,3 +10,7 @@ La ligne de commande suivante permet de compiler et d'exécuter le projet
 g++ -Wall -Wextra -Werror *.cpp -o appli && ./appli
 ```
 Cependant, nous avons réalisé le projet sous CodeBlocks avons toujours compilé/executé via le logiciel. Nous recommandons donc cette approche. 
+
+## Usage
+
+L'execution du programme provoque l'affichage dans le terminal des données enregistrées par les différents capteurs ainsi que les actions en cours. 
