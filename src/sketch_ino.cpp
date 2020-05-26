@@ -48,7 +48,7 @@ void Board::loop(){
     }
     //Definition des caracteristiques propres a chaque plante
     CaracteristiquePlante Cactus ("cactus",1,60,0,100,30,20,10000);
-    CaracteristiquePlante Tulipe("tulipe",2,40,-4,300,40,30,1000);
+    CaracteristiquePlante Tulipe("tulipe",2,40,-4,300,30,30,1000);
     //Diagnostic de chaque plante => Quelle action mener?
     diagCactus = runDiagnosis(Cactus,this);
     diagTulipe = runDiagnosis(Tulipe,this);

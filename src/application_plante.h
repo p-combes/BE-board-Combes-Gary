@@ -19,7 +19,7 @@
 #define MARGE_HUM_AIR 15
 #define MARGE_TEMP 5
 #define MARGE_LUM 1000
-#define HUMIDITE_SOL_MAX 1000//au dela de cette valeur les plantes sont noyes, il a trop plu
+#define HUMIDITE_SOL_MAX 10000//au dela de cette valeur les plantes sont noyes, il a trop plu
 
 enum action {NE_RIEN_FAIRE,ALLUMER_LAMPE,ARROSER,ALLUMER_ARROSER,ETEINDRE,ETEINDRE_ARROSER,MORTE};
 class ParametrePlante {
