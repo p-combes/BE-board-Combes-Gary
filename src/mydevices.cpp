@@ -176,7 +176,7 @@ void AnalogSensorHumiditySoil::run(){
 
     if (cpt==1){
             Plantation[1]=100;
-            Plantation[2]=100;
+            Plantation[2]=700;
             Plantation[3]=200;
             cpt=2; //Empeche une autre initialisation
     }
