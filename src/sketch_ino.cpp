@@ -41,15 +41,18 @@ void Board::loop(){
     switch (planteADiagnostiquer){
         case 1:
             ecranCorrespondant = I2C_SCREEN_1;
+            break;
         case 2:
             ecranCorrespondant = I2C_SCREEN_2;
+            break;
         case 3 :
             ecranCorrespondant = I2C_SCREEN_3;
+            break;
     }
     //Definition des caracteristiques propres a chaque plante
     try{
         CaracteristiquePlante Cactus ("cactus",1,60,0,100,30,20,10000);
-        CaracteristiquePlante Tulipe("tulipe",2,40,-4,300,30,30,10000);
+        CaracteristiquePlante Tulipe("tulipe",2,40,-4,300,30,30,6000);
         //Diagnostic de chaque plante => Quelle action mener?
         diagCactus = runDiagnosis(Cactus,this);
         diagTulipe = runDiagnosis(Tulipe,this);

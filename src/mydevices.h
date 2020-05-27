@@ -27,7 +27,7 @@ static map<int,int> Luminosite; //Map associant a chaque plante la luminosite pe
 
 
 void JourneePrintemps (int avancee);
-
+void JourneeTest(int avancee);
 
 class Sensor : public Device {
 protected:

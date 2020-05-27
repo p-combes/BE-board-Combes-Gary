@@ -166,14 +166,6 @@ int runDiagnosis(CaracteristiquePlante modele, Board* arduino){
     if (parametre.temperature>modele.max_temp || parametre.temperature<modele.min_temp || parametre.humidite_sol>HUMIDITE_SOL_MAX) //La plante est morte
     {
         act=MORTE;
-        if (parametre.temperature>modele.max_temp)
-            cout<<"morte de chaud"<<endl;
-        else if (parametre.temperature<modele.min_temp)
-            cout<<"morte de froid"<<endl;
-        else if (parametre.humidite_sol>HUMIDITE_SOL_MAX)
-            cout<<"Mort noyee"<<endl;
-        else
-            cout<<"Mort mysterieuse"<<endl;
     }
     else {
         if (hum_sol < modele.humidite_sol-MARGE_HUM_SOL) {
@@ -232,6 +224,7 @@ char buf[100];
     case ETEINDRE_ARROSER :
         Decisions.insert(plantes);
         EteindreLampe(plantes.numero,arduino);
+        break;
     case MORTE:
          if (arros.detecterEnArrosage(arduino)==true){
         }
@@ -256,7 +249,7 @@ char buf[100];
 
 void applyDecision(set<CaracteristiquePlante> Decisions,Arrosoir arros,CaracteristiquePlante plante1,CaracteristiquePlante plante2, Board* arduino){
 if (Decisions.empty()){ //Si la liste des decisions est vide => on ne bouge pas de là ooù l'on est
-        JourneePrintemps(NORMALE);
+        JourneeTest(NORMALE);
         arduino->digitalWrite(PIN_SERVO_ARROSOIR,VITESSE_ARROSOIR_ARRET);
         arros.inclinerArrosoir(PAS_ARROSAGE,arduino);
         cout<<"Je n'arrose personne"<<endl;
@@ -272,12 +265,12 @@ set <CaracteristiquePlante>::iterator it;
     }
     //On applique alors l'arrosage a la plante la plus prioritaire
     if (MaxPriority==plante1){
-            JourneePrintemps(RALENTIE);
+            JourneeTest(RALENTIE);
             arros.arroser(plante1.numero,plante1.humidite_sol+150,arduino); //On arrose plus que la limite
             cout<<"Je choisis d'arroser "<<plante1.name<<endl;
         }
     else if (MaxPriority==plante2){
-            JourneePrintemps(RALENTIE);
+            JourneeTest(RALENTIE);
             arros.arroser(plante2.numero,plante2.humidite_sol+150,arduino);
             cout<<"Je choisis d'arroser "<<plante2.name<<endl;
         }

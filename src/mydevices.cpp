@@ -39,6 +39,44 @@ void JourneePrintemps(int avancee){
     }
 }
 
+void JourneeTest(int avancee){
+
+        cout<<"Il est :"<<heure<<" h"<<endl;
+        if ((heure>7 && heure<13)||(heure>15 && heure<21)){//c'est la journée
+            luminosite_environnement = 20000;
+            temperature_environnement = 16;
+
+        }
+        else if ((heure<=15)&&(heure>=13)){
+            luminosite_environnement=8000;
+            temperature_environnement=16;
+        }
+        else{ //c'est la nuit
+            luminosite_environnement = 30;
+            temperature_environnement= 10;
+        }
+        if (avancee==NORMALE){
+            if ((heure>21)&&(heure<23)){
+                humidite_air=100;
+                Plantation[1]+=10;
+                Plantation[2]+=10;
+                Plantation[3]+=10;
+            }
+            else{
+                humidite_air = 70;
+                for(int i=1;i<4;i++){
+                    if ((Plantation[i]-=10)<=0){
+                        Plantation[i]=0;
+                    }
+                    else{
+                        Plantation[i]-=10;
+                    }
+                }
+            }
+            heure=heure+1;
+            if (heure>23) {heure =0;}
+    }
+}
 
 //Declaration compteur d'instance pour humidity sol
 int AnalogSensorHumiditySoil::cpt=0;
@@ -174,8 +212,8 @@ void AnalogSensorHumiditySoil::run(){
         //Initialisation de la plantation si première instanciation
 
     if (cpt==1){
-            Plantation[1]=100;
-            Plantation[2]=700;
+            Plantation[1]=110;
+            Plantation[2]=400;
             Plantation[3]=200;
             cpt=2; //Empeche une autre initialisation
     }
