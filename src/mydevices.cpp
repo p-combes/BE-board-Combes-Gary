@@ -42,12 +42,12 @@ void JourneePrintemps(int avancee){
 void JourneeTest(int avancee){
 
         cout<<"Il est :"<<heure<<" h"<<endl;
-        if ((heure>7 && heure<13)||(heure>15 && heure<21)){//c'est la journée
+        if ((heure>7 && heure<12)||(heure>15 && heure<21)){//c'est la journée
             luminosite_environnement = 20000;
             temperature_environnement = 16;
 
         }
-        else if ((heure<=15)&&(heure>=13)){
+        else if ((heure<=15)&&(heure>=12)){
             luminosite_environnement=8000;
             temperature_environnement=16;
         }
