@@ -49,7 +49,12 @@ void JourneeTest(int avancee){
         }
         else if ((heure<=15)&&(heure>=12)){
             luminosite_environnement=8000;
-            temperature_environnement=16;
+            if (heure==12){
+                temperature_environnement=16;
+            }
+            else{
+                temperature_environnement=50;
+            }
         }
         else{ //c'est la nuit
             luminosite_environnement = 30;
@@ -169,7 +174,7 @@ while(1){
         Luminosite[numeroPlante] = luminosite_environnement;
     }
     else{
-        Luminosite[numeroPlante] = luminosite_environnement + 50;
+        Luminosite[numeroPlante] = luminosite_environnement + 2000;
         cout<<"Lampe "<<numeroPlante<<" allumee"<<endl;
     }
     sleep(temps);

@@ -25,10 +25,11 @@ static double angle_arrosoir=0.0;
 static map<int,int> Plantation; //Map associant a chaque plante l'humidite presente à son pied (humidité en mV)
 static map<int,int> Luminosite; //Map associant a chaque plante la luminosite percue
 
-
+//Simulation des journées de test
 void JourneePrintemps (int avancee);
 void JourneeTest(int avancee);
 
+///Capteurs Et Classes héritées
 class Sensor : public Device {
 protected:
     //temps entre 2 affichages
@@ -38,13 +39,6 @@ public :
 
 };
 
-class Actuator : public Device {
-protected :
-    int temps;
-public:
-    Actuator(int t);
-
-};
 class AnalogSensor : public Sensor{
 protected :
 
@@ -55,7 +49,7 @@ public:
     AnalogSensor(int t);
 };
 
-// exemple de capteur analogique de temperature, ne pas oublier d'heriter de Device
+
 class AnalogSensorTemperature: public AnalogSensor {
 private:
   // valeur de temperature mesuree
@@ -68,38 +62,6 @@ public:
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
-
-
-
-// exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
-class DigitalActuatorLED: public Actuator {
-private:
-  // etat de la LED
-  int state;
-
-
-public:
-    // initialisation du temps de rafraichiisement
-  DigitalActuatorLED(int t);
-  // thread representant l'actionneur et permettant de fonctionner independamment de la board
-  virtual void run();
-};
-
-// exemple d'actionneur sur le bus I2C permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
-class I2CActuatorScreen : public Device{
-protected:
-    // memorise l'affichage de l'ecran
-  char buf[I2C_BUFFER_SIZE];
-
-public:
-  // constructeur
-  I2CActuatorScreen ();
-  // thread representant le capteur et permettant de fonctionner independamment de la board
-  virtual void run();
-};
-
-
-
 
 class AnalogSensorLuminosity : public AnalogSensor{
 protected :
@@ -117,19 +79,6 @@ public:
     virtual void run();
 };
 
-class DigitalActuatorUVLamp : public Actuator{
-protected :
-    //Etat de la LED
-    int state;
-    //plante associee a la lampe à UV
-    int numeroPlante;
-public:
-    //constructeur
-    DigitalActuatorUVLamp(int t,int plante);
-    // thread representant le capteur et permettant de fonctionner independamment de la board
-    virtual void run();
-};
-
 class ExternalDigitalSensorbutton: public Sensor{
 protected :
     //Etat du bouton
@@ -141,9 +90,6 @@ public:
      // thread representant le capteur et permettant de fonctionner independamment de la board
      virtual void run();
 };
-
-
-
 
 class AnalogSensorHumiditySoil : public AnalogSensor{
 protected :
@@ -160,7 +106,6 @@ public:
     virtual void run();
 };
 
-
 class AnalogSensorHumidityAir : public AnalogSensor{
 protected :
     //Valeur d'humidite capt�e en %
@@ -169,6 +114,77 @@ protected :
 public:
     //constructeur
     AnalogSensorHumidityAir(int t);
+    // thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+
+class AnalogSensorRadar : public AnalogSensor{
+protected :
+    //distance entre le radar et l'arrosoir => ou se situe l'arrosoir dans la rangee
+    double distance;
+
+public:
+    //constructeur
+    AnalogSensorRadar(int t);
+    // thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+
+class AnalogSensorAngular : public AnalogSensor{
+protected:
+    //valeur angle captee au niveau de l'arrosoir
+    double angle;
+public:
+    //constructeur
+    AnalogSensorAngular(int t);
+    //thread representant le capteur et permettant de fonctionner independamment de la board
+    virtual void run();
+};
+///Actionneurs et classes héritées
+
+class Actuator : public Device {
+protected :
+    int temps;
+public:
+    Actuator(int t);
+
+};
+
+
+class DigitalActuatorLED: public Actuator {
+private:
+  // etat de la LED
+  int state;
+
+
+public:
+    // initialisation du temps de rafraichiisement
+  DigitalActuatorLED(int t);
+  // thread representant l'actionneur et permettant de fonctionner independamment de la board
+  virtual void run();
+};
+
+class I2CActuatorScreen : public Device{
+protected:
+    // memorise l'affichage de l'ecran
+  char buf[I2C_BUFFER_SIZE];
+
+public:
+  // constructeur
+  I2CActuatorScreen ();
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+  virtual void run();
+};
+
+class DigitalActuatorUVLamp : public Actuator{
+protected :
+    //Etat de la LED
+    int state;
+    //plante associee a la lampe à UV
+    int numeroPlante;
+public:
+    //constructeur
+    DigitalActuatorUVLamp(int t,int plante);
     // thread representant le capteur et permettant de fonctionner independamment de la board
     virtual void run();
 };
@@ -187,17 +203,6 @@ public:
   virtual void run();
 };
 
-class AnalogSensorRadar : public AnalogSensor{
-protected :
-    //distance entre le radar et l'arrosoir => ou se situe l'arrosoir dans la rangee
-    double distance;
-
-public:
-    //constructeur
-    AnalogSensorRadar(int t);
-    // thread representant le capteur et permettant de fonctionner independamment de la board
-    virtual void run();
-};
 
 class AnalogActuatorServo : public Actuator{
 protected:
@@ -226,14 +231,5 @@ public :
     virtual void run();
 };
 
-class AnalogSensorAngular : public AnalogSensor{
-protected:
-    //valeur angle captee au niveau de l'arrosoir
-    double angle;
-public:
-    //constructeur
-    AnalogSensorAngular(int t);
-    //thread representant le capteur et permettant de fonctionner independamment de la board
-    virtual void run();
-};
+
 #endif
