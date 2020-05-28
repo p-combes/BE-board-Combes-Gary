@@ -75,3 +75,73 @@
 	"core_simulation.h"
 	"mydevices.h"
 
+1590488858 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\arosoir.cpp
+	"Arosoir.h"
+
+1590488858 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\arosoir.h
+	"core_simulation.h"
+	"mydevices.h"
+
+1590488858 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\core_simulation.h
+	<unistd.h>
+	<windows.h>
+	<iostream>
+	<string>
+	<thread>
+	<mutex>
+
+1590662734 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\mydevices.h
+	<iostream>
+	<thread>
+	<unistd.h>
+	<string.h>
+	<fstream>
+	<time.h>
+	<ctime>
+	<set>
+	<map>
+	"core_simulation.h"
+
+1590488858 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\board.cpp
+	"core_simulation.h"
+	"mydevices.h"
+
+1589810954 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\core_simulation.cpp
+	<thread>
+	<unistd.h>
+	<string.h>
+	"core_simulation.h"
+
+1590662734 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\mydevices.cpp
+	"mydevices.h"
+
+1590662734 source:c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\sketch_ino.cpp
+	<unistd.h>
+	"core_simulation.h"
+	"mydevices.h"
+	"Arosoir.h"
+	"application_plante.h"
+	"lampeUV.cpp"
+
+1590663137 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\application_plante.h
+	<iostream>
+	<thread>
+	<unistd.h>
+	<string.h>
+	<fstream>
+	<time.h>
+	<ctime>
+	<climits>
+	<map>
+	"core_simulation.h"
+	"mydevices.h"
+	"Arosoir.h"
+	"lampeUV.h"
+
+1590488858 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\lampeuv.h
+	"core_simulation.h"
+	"mydevices.h"
+
+1590488858 c:\users\pauli\onedrive\documents\4a -etude\c++\be\be-board-combes-gary\src\lampeuv.cpp
+	"lampeUV.h"
+

@@ -2,7 +2,8 @@
 
 using namespace std;
 
-
+//Classe ParametrePlante
+//Constructeurs
 ParametrePlante::ParametrePlante(char* nom, int num,int hum_sol,int hum_air,int temp, int lum){
 
     if (num>MAX_PLANTE) throw EXCEPTION_NB_PLANTE;
@@ -24,6 +25,8 @@ ParametrePlante::ParametrePlante(int hum_sol,int hum_air,int temp, int lum){
 
 }
 
+//Classe CaracteristiquePlante
+//Constructeurs
 CaracteristiquePlante::CaracteristiquePlante(char* nom,int num,int maximum,int minimum,int hum_sol,int hum_air,int temp, int lum):ParametrePlante(nom,num,hum_sol,hum_air,temp,lum){
     max_temp = maximum;
     min_temp = minimum;
@@ -174,7 +177,7 @@ int runDiagnosis(CaracteristiquePlante modele, Board* arduino){
                 if (lum<modele.luminosite -MARGE_LUM) {
                         act = ALLUMER_LAMPE; //il n'y a pas assez de luminosite
                 } else if (lum>modele.luminosite+MARGE_LUM) {
-                        act = ETEINDRE;
+                        act = ETEINDRE; //Trop de luminosite
                 }
             }
             else{
@@ -185,7 +188,7 @@ int runDiagnosis(CaracteristiquePlante modele, Board* arduino){
                         act = ETEINDRE_ARROSER;
                 }
             }
-        } else {
+        } else { //Pas besoin d'arroser
         if (lum<modele.luminosite -MARGE_LUM) {
                         act = ALLUMER_LAMPE;
                 } else if (lum>modele.luminosite+MARGE_LUM) {
