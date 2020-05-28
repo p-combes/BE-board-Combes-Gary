@@ -1,0 +1,4 @@
+#executable
+BE/bin/Debug/*
+#objets
+BE/obj/Debug/src/*
