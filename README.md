@@ -13,4 +13,5 @@ Cependant, nous avons réalisé le projet sous CodeBlocks avons toujours compil�
 
 ## Usage
 
-L'execution du programme provoque l'affichage dans le terminal des données enregistrées par les différents capteurs ainsi que les actions en cours. 
+L'execution du programme provoque l'affichage dans le terminal des données enregistrées par les différents capteurs ainsi que les actions en cours.
+La simulation est une journee de printemps, nous avons implémenté pour le test deux plantes : Cactus et Tulipe. Vous pouvez observer sur le terminal les différents paramètres et les décisions du sytème.
